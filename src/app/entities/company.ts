@@ -1,20 +1,25 @@
 /* eslint-disable prettier/prettier */
 import { randomUUID } from 'crypto';
 import { User, UserProps } from './user';
+import { Address } from './address';
 
 export interface CompanyProps extends UserProps {
   comporateName: string;
   popularName: string;
   cnpj: string;
+  photoUrl?: string;
   phoneNumber: string;
+  address: Address
 }
 
 export interface CompanyUpdateProps {
   id: string;
-  comporateName: string;
-  popularName: string;
-  cnpj: string;
-  phoneNumber: string;
+  comporateName?: string;
+  popularName?: string;
+  cnpj?: string;
+  phoneNumber?: string;
+  photoUrl?: string
+  address?: Address
 }
 
 export class Company extends User {
@@ -58,11 +63,25 @@ export class Company extends User {
     this.companyProps.phoneNumber = phoneNumber;
   }
 
+  public get photoUrl(): string {
+    return this.companyProps.photoUrl;
+  }
+  public set photoUrl(photoUrl:string){
+    this.companyProps.photoUrl = photoUrl;
+  }
+
   public get updatedAt(): Date {
     return this.companyProps.updatedAt;
   }
   public set updatedAt(updatedAt:Date){
     this.companyProps.updatedAt = updatedAt;
+  }
+
+  public get address():Address {
+    return this.companyProps.address
+  }
+  public set address(address:Address) {
+    this.companyProps.address = address
   }
 
 }

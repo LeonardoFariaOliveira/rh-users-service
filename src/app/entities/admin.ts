@@ -1,28 +1,31 @@
+/* eslint-disable prettier/prettier */
 import { randomUUID } from 'crypto';
 
-export interface UserProps {
-  email: string;
-  password: string;
+export interface AdminProps {
+  name: string;
+  user: string;
+  password?: string;
   createdAt?: Date;
   updatedAt?: Date;
   active?: boolean;
 }
 
-export interface UserUpdateProps {
+export interface AdminUpdateProps {
   id: string;
-  password?: string | null;
+  password?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
   active?: boolean;
 }
 
-export class User {
+export class Admin {
   private _id: string;
-  private props: UserProps;
+  private props: AdminProps;
 
-  constructor(email: string, password: string, id?: string, createdAt?: Date) {
+  constructor(props:AdminProps, id?: string, createdAt?: Date) {
     this._id = id ?? randomUUID();
     this.props = {
-      email: email,
-      password: password,
+      ...props,
       createdAt: createdAt ?? new Date(),
       updatedAt: new Date(),
       active: true,
@@ -33,11 +36,18 @@ export class User {
     return this._id;
   }
 
-  public set email(email: string) {
-    this.props.email = email;
+  public set name(name: string) {
+    this.props.name = name;
   }
-  public get email(): string {
-    return this.props.email;
+  public get name(): string {
+    return this.props.name;
+  }
+
+  public set user(user: string) {
+    this.props.name = user;
+  }
+  public get user(): string {
+    return this.props.user;
   }
 
   public set password(password: string) {
