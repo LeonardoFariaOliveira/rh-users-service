@@ -2,9 +2,10 @@ import { randomUUID } from 'crypto';
 
 //Admin principal interface, we use to create and list
 export interface AdminProps {
+  id?: string;
   name: string;
   user: string;
-  password?: string;
+  password: string;
   createdAt?: Date;
   updatedAt?: Date;
   active?: boolean;
@@ -20,7 +21,7 @@ export interface AdminUpdateProps {
 }
 
 export class Admin {
-  private _id: string;
+  private _id?: string;
   private props: AdminProps;
 
   //Constructor to initialize the object Admin and responsable to create self object
