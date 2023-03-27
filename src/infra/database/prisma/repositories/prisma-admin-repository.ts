@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from "@nestjs/common";
-import { User } from "@app/entities/user";
 import { AdminRepository } from "@app/repositories/adminRepository";
 import { PrismaService } from "../prisma.service";
 import { PrismaAdminMapper } from "../mappers/prisma-admin-mapper";
@@ -15,7 +14,7 @@ export class PrismaAdminRepository implements AdminRepository{
     //Create a admin on database
     async create(admin: AdminProps): Promise<void> {
 
-        const raw = PrismaAdminMapper.toPrisma(admin)
+        const raw = await PrismaAdminMapper.toPrisma(admin)
         await this.prismaService.admin.create({
             data:raw
         })

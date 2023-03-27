@@ -1,14 +1,10 @@
-import { Admin, AdminProps } from '@app/entities/admin';
+import { AdminProps } from '@app/entities/admin';
 import { AdminRepository } from '@app/repositories/adminRepository';
 
-export class InMemoryAdminRepository
-  implements AdminRepository
-{
+export class InMemoryAdminRepository implements AdminRepository {
+  public admins: AdminProps[] = [];
 
-    public admins: AdminProps[] = [];
-
-    async create(admin: AdminProps) {
-        this.admins.push(admin)
-    }
-
+  async create(admin: AdminProps) {
+    this.admins.push(admin);
+  }
 }
