@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model Admin{
+  id String @id
+  name String
+  user String
+  password String
+  active Boolean @default(true)
+  passwordResetRequestId PasswordResetRequest[]
+}
+
+
+model User{
+  id String @id
+  email String
+  password String
+  corporateName String
+  popularName String
+  CNPJ String
+  phoneNumber String
+  photoUrl String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  active Boolean @default(true)
+  addressId Address?
+  passwordResetRequestId PasswordResetRequest[]
+  employeeId Employee[]
+}
+
+model Address{
+  id String @id
+  country String
+  city String
+  neighboor String
+  street String
+  number String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  employeeId String @unique
+}
+
+model PasswordResetRequest{
+  id String @id
+  createdAt DateTime? @default(now())
+  status Int @default(1)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+  admin Admin @relation(fields: [adminId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  adminId String
+}
+
+model Employee{
+  id String @id
+  name String
+  CPF String
+  CTPS String
+  job String
+  sector String
+  salary Decimal
+  photoUrl String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  active Boolean @default(true)
+  addressId Address?
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+}
+
