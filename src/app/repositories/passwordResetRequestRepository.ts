@@ -1,4 +1,3 @@
-import { PasswordResetRequest, PasswordResetRequestProps } from '../entities/passwordResetRequest';
+import {} from '../entities/passwordResetRequest';
 
-export abstract class PasswordResetRequestRepository{
-}
+export abstract class PasswordResetRequestRepository {}

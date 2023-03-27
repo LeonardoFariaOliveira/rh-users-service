@@ -1,4 +1,4 @@
-import { Company, CompanyProps } from '../entities/company';
+import { CompanyProps } from '../entities/company';
 
 export abstract class CompanyRepository {
   abstract create(company: CompanyProps): Promise<void>;

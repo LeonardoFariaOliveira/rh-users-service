@@ -12,10 +12,12 @@ export class AdminController {
     private adminAccessEncrypt: AdminAccessEncrypt
   ) {}
 
+  //Path to create an admin
   @Post('03202327')
   async create(@Body() body: CreateAdminBody) {
     const {name} = body;
 
+    //Encrypt the name of admin to generate an access and then a password
     const {encryptedData, iv} = await this.adminAccessEncrypt.execute(name)
     const user = encryptedData.slice(0, 9)
     const encrPass = await this.adminAccessEncrypt.execute(user)
@@ -26,12 +28,14 @@ export class AdminController {
         user,
         password
       });
+      //Created, status 200
       return {
         message: 'Ok',
       };
     }catch(e){
       return {
-        status:401,
+        //Bad request, status 400
+        status:400,
         message:e
       }
     }

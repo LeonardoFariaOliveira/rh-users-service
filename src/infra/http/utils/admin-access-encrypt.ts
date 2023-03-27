@@ -1,5 +1,6 @@
 import { createCipheriv, randomBytes } from 'crypto';
 
+//Class that encrypt the name
 export class AdminAccessEncrypt {
   private hash = 'aes-256-cbc';
   private iv = randomBytes(16);

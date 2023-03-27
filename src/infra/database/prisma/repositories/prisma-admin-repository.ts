@@ -12,6 +12,7 @@ export class PrismaAdminRepository implements AdminRepository{
 
     constructor(private prismaService: PrismaService){}
 
+    //Create a admin on database
     async create(admin: AdminProps): Promise<void> {
 
         const raw = PrismaAdminMapper.toPrisma(admin)
