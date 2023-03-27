@@ -1,7 +1,8 @@
-/* eslint-disable prettier/prettier */
 import { randomUUID } from 'crypto';
 import { Address } from './address';
+import { CompanyProps } from './company';
 
+//Employee principal interface, we use to create and list
 export interface EmployeeProps{
   name: string
   CPF: string
@@ -16,9 +17,11 @@ export interface EmployeeProps{
   createdAt?: Date;
   updatedAt?: Date;
   active?: boolean;
+  company: CompanyProps;
 
 }
 
+//Update employee interface
 export interface EmployeeUpdateProps {
   id: string;
   name?: string
@@ -127,6 +130,13 @@ export class Employee {
   }
   public set address(address:Address) {
     this.employeeProps.address = address
+  }
+
+  public get company():CompanyProps {
+    return this.employeeProps.company
+  }
+  public set company(company:CompanyProps) {
+    this.employeeProps.company = company
   }
 
 }

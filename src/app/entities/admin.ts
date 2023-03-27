@@ -1,6 +1,6 @@
-/* eslint-disable prettier/prettier */
 import { randomUUID } from 'crypto';
 
+//Admin principal interface, we use to create and list
 export interface AdminProps {
   name: string;
   user: string;
@@ -10,6 +10,7 @@ export interface AdminProps {
   active?: boolean;
 }
 
+//Update admin interface
 export interface AdminUpdateProps {
   id: string;
   password?: string;
@@ -22,6 +23,7 @@ export class Admin {
   private _id: string;
   private props: AdminProps;
 
+  //Constructor to initialize the object Admin and responsable to create self object
   constructor(props:AdminProps, id?: string, createdAt?: Date) {
     this._id = id ?? randomUUID();
     this.props = {

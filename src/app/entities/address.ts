@@ -2,13 +2,15 @@ import { randomUUID } from 'crypto';
 
 export class Address {
   private _id: string;
-  private readonly country: string;
+  private country: string;
   private countryArea: string;
   private city: string;
   private neighboor: string;
   private street: string;
   private number: string;
 
+
+  //Constructor to initialize the object Address and responsable to create self object
   constructor(
     country: string,
     countryArea: string,
@@ -20,10 +22,11 @@ export class Address {
   ) {
     this._id = id ?? randomUUID();
     (this.country = country),
-      (this.countryArea = countryArea),
-      (this.street = street),
-      (this.neighboor = neighboor),
-      (this.number = number);
+    (this.countryArea = countryArea),
+    (this.city = city),
+    (this.street = street),
+    (this.neighboor = neighboor),
+    (this.number = number);
   }
 
   public get id(): string {

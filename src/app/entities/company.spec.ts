@@ -53,7 +53,7 @@ describe('Company', () => {
       comporateName: 'Cyberswitch-Ltda',
       popularName: 'CyberSwitch',
       phoneNumber: '14998867061',
-      photoUrl: "rhnjenejknvkerj.png",
+      photoUrl: 'rhnjenejknvkerj.png',
       address: new Address(
         'Brasil',
         'São Paulo',

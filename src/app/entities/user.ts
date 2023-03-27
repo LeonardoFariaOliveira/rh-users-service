@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 
+//User principal interface
 export interface UserProps {
   email: string;
   password: string;
@@ -8,6 +9,7 @@ export interface UserProps {
   active?: boolean;
 }
 
+//Update user interface
 export interface UserUpdateProps {
   id: string;
   password?: string | null;

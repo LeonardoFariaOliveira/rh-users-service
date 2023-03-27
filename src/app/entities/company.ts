@@ -1,8 +1,9 @@
-/* eslint-disable prettier/prettier */
 import { randomUUID } from 'crypto';
 import { User, UserProps } from './user';
 import { Address } from './address';
 
+//Company principal interface, we use to create and list.
+// Extends user's interface to inherit user's properties
 export interface CompanyProps extends UserProps {
   comporateName: string;
   popularName: string;
@@ -12,6 +13,7 @@ export interface CompanyProps extends UserProps {
   address: Address
 }
 
+//Update company interface
 export interface CompanyUpdateProps {
   id: string;
   comporateName?: string;
@@ -22,10 +24,14 @@ export interface CompanyUpdateProps {
   address?: Address
 }
 
+//I've made this inheritence 'cause of in the future if we need more user access,
+// is easiest to do if we have a parent class
 export class Company extends User {
   private companyProps: CompanyProps;
 
   constructor(props: CompanyProps, id?: string) {
+    //here I pass the email and password to user's class 'cause I think 
+    // is better that user takes the auth responsibility 
     super(props.email, props.password, id ?? randomUUID());
     this.companyProps = {
       ...props,
