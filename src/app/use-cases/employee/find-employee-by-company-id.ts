@@ -14,7 +14,7 @@ export class FindEmployeeByCompanyId {
 
   async execute(companyId: string): Promise<FindEmployeeByCompanyIdResponse> {
     //Get all the companies
-    const employees = await this.employeeRepository.findManyByCompanyId(
+    const employees = await this.employeeRepository.findEmployeesByCompanyId(
       companyId,
     );
     return {

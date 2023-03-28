@@ -9,6 +9,7 @@ import { FindCompanies } from '@app/use-cases/company/find-companies';
 import { EmployeeController } from './controllers/employee.controller';
 import { CreateEmployee } from '@app/use-cases/employee/create-employee';
 import { DateMask } from './utils/date-mask';
+import { FindEmployeeByCompanyId } from '@app/use-cases/employee/find-employee-by-company-id';
 
 @Module({
   imports: [DatabaseModule],
@@ -20,6 +21,7 @@ import { DateMask } from './utils/date-mask';
     FindCompanies,
     CreateEmployee,
     DateMask,
+    FindEmployeeByCompanyId,
   ],
 })
 export class HTTPModule {}

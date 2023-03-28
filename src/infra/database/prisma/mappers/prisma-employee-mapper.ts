@@ -25,27 +25,28 @@ export class PrismaEmployeeMapper {
   }
 
   //Here we take data from persistence layer ans mask to domain layer
-  //   static toDomain(raw: rawCompany, rawAddress: rawAddress): Company {
-  //     // const companyRaw =
-  //     return new Company(
-  //       {
-  //         email: raw.email,
-  //         password: raw.password,
-  //         corporateName: raw.corporateName,
-  //         popularName: raw.popularName,
-  //         cnpj: raw.CNPJ,
-  //         phoneNumber: raw.phoneNumber,
-  //         photoUrl: raw.photoUrl,
-  //         address: new Address(
-  //           rawAddress.country,
-  //           rawAddress.countryArea,
-  //           rawAddress.city,
-  //           rawAddress.neighboor,
-  //           rawAddress.street,
-  //           rawAddress.number,
-  //         ),
-  //       },
-  //       raw.id,
-  //     );
-  //   }
+  static toDomain(raw: rawCompany, rawAddress: rawAddress): Employee {
+    return new Employee(
+      {
+        name: raw.name,
+        CPF: raw.CPF,
+        CTPS: raw.CTPS,
+        job: raw.job,
+        sector: raw.sector,
+        salary: parseFloat(raw.salary.toString()),
+        birthDate: raw.birthDate,
+        admissionDate: raw.admissionDate,
+        companyId: raw.companyId,
+        address: new Address(
+          rawAddress.country,
+          rawAddress.countryArea,
+          rawAddress.city,
+          rawAddress.neighboor,
+          rawAddress.street,
+          rawAddress.number,
+        ),
+      },
+      raw.id,
+    );
+  }
 }

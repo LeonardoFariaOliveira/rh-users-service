@@ -10,4 +10,15 @@ export class DateMask {
     const fullDate = year + '-' + month + '-' + day;
     return new Date(fullDate);
   }
+
+  executeInverse(date: Date) {
+    const stringDate = date.toISOString();
+    const splitedDate = stringDate.split('');
+    const day = splitedDate[8] + splitedDate[9];
+    const month = splitedDate[5] + splitedDate[6];
+    const year =
+      splitedDate[0] + splitedDate[1] + splitedDate[2] + splitedDate[3];
+    const fullDate = day + '-' + month + '-' + year;
+    return fullDate;
+  }
 }

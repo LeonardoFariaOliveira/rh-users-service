@@ -3,12 +3,15 @@ import { CreateEmployee } from '@app/use-cases/employee/create-employee';
 import { CreateEmployeeBody } from '../dtos/create-employee-body';
 import { Address } from '@app/entities/address';
 import { DateMask } from '../utils/date-mask';
+import { FindEmployeeByCompanyId } from '@app/use-cases/employee/find-employee-by-company-id';
+import { EmployeesViewModule } from '../views/employees-view-module';
 
-@Controller('v1/employee')
+@Controller('v1/employees')
 export class EmployeeController {
   constructor(
     private createEmployee: CreateEmployee,
     private dateMask: DateMask,
+    private findEmployeeByCompanyId: FindEmployeeByCompanyId,
   ) {}
 
   //Path to create an employee
@@ -57,6 +60,30 @@ export class EmployeeController {
       return {
         //Bad request, status 400
         status: 400,
+        message: e,
+      };
+    }
+  }
+
+  //Path to get the companies
+  @Get('/:companyId')
+  async getEmployeesByCompanyId(@Param('companyId') companyId: string) {
+    try {
+      const { employees } = await this.findEmployeeByCompanyId.execute(
+        companyId,
+      );
+      return {
+        data: {
+          companyId: companyId,
+          count: employees.length,
+          employees: employees.map((employee) =>
+            EmployeesViewModule.manyEmployeesToHTTP(employee),
+          ),
+        },
+      };
+    } catch (e) {
+      return {
+        status: 404,
         message: e,
       };
     }

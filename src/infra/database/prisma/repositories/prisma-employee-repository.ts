@@ -8,9 +8,6 @@ import { Address } from '@app/entities/address';
 @Injectable()
 export class PrismaEmployeeRepository implements EmployeeRepository {
   constructor(private prismaService: PrismaService) {}
-  async findManyByCompanyId(companyId: string): Promise<EmployeeProps[]> {
-    throw new Error('Method not implemented.');
-  }
 
   //Create an employee on database
   async create(employee: EmployeeProps): Promise<void> {
@@ -69,19 +66,33 @@ export class PrismaEmployeeRepository implements EmployeeRepository {
   //     });
   //   }
 
-  // async findById(userId: string): Promise<User> {
-  //     const user = await this.prismaService.user.findUnique({
-  //         where:{
-  //             id: userId
-  //         }
-  //     })
-
-  //     if(!user){
-  //         return null
-  //     }
-
-  //     return PrismaUserMapper.toDomain(user)
-  // }
+  async findEmployeesByCompanyId(companyId: string): Promise<Employee[]> {
+    const employees = await this.prismaService.employee.findMany({
+      select: {
+        name: true,
+        CPF: true,
+        CTPS: true,
+        job: true,
+        sector: true,
+        salary: true,
+        birthDate: true,
+        admissionDate: true,
+        companyId: true,
+        id: true,
+        active: true,
+        createdAt: true,
+        photoUrl: true,
+        updatedAt: true,
+        address: true,
+      },
+      where: {
+        companyId: companyId,
+      },
+    });
+    return employees.map((employee) => {
+      return PrismaEmployeeMapper.toDomain(employee, employee.address);
+    });
+  }
 
   // async update(user: User): Promise<User> {
 

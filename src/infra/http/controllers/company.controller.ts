@@ -57,6 +57,7 @@ export class CompanyController {
   async getCompanies() {
     const {companies} = await this.findCompanies.execute();
     return {
+      count: companies.length,
       companies: companies.map((company)=>CompanyViewModule.manyCompaniesToHTTP(company)),
     };
   }

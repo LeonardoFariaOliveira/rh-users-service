@@ -8,7 +8,7 @@ export class InMemoryEmployeeRepository implements EmployeeRepository {
     this.employees.push(employee);
   }
 
-  async findManyByCompanyId(companyId: string): Promise<EmployeeProps[]> {
+  async findEmployeesByCompanyId(companyId: string): Promise<EmployeeProps[]> {
     return this.employees.filter((employee) => {
       return employee.companyId == companyId ? true : false;
     });
