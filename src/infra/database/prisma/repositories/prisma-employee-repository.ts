@@ -8,7 +8,7 @@ import { Address } from '@app/entities/address';
 @Injectable()
 export class PrismaEmployeeRepository implements EmployeeRepository {
   constructor(private prismaService: PrismaService) {}
-  findManyByCompanyId(companyId: string): Promise<EmployeeProps> {
+  async findManyByCompanyId(companyId: string): Promise<EmployeeProps[]> {
     throw new Error('Method not implemented.');
   }
 
