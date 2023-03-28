@@ -7,7 +7,7 @@ import { Address } from '@app/entities/address';
 interface CreateCompanyRequest {
   email: string;
   password: string;
-  comporateName: string;
+  corporateName: string;
   popularName: string;
   cnpj: string;
   photoUrl?: string;
@@ -29,7 +29,7 @@ export class CreateCompany {
     const {
       email,
       password,
-      comporateName,
+      corporateName,
       popularName,
       phoneNumber,
       cnpj,
@@ -39,16 +39,16 @@ export class CreateCompany {
 
     //Verify and throws errors
     if (!email) {
-      throw new Error('Company should have an email name');
+      throw new Error('Company should have an email');
     }
     if (!password) {
-      throw new Error('Company should have a password name');
+      throw new Error('Company should have a password');
     }
-    if (!comporateName) {
-      throw new Error('Company should have a corporate name');
+    if (!corporateName) {
+      throw new Error('Company should have a corporate');
     }
     if (!popularName) {
-      throw new Error('Company should have a popular name');
+      throw new Error('Company should have a popular');
     }
     if (!phoneNumber) {
       throw new Error('Company should have a phone number');
@@ -64,7 +64,7 @@ export class CreateCompany {
     const company = new Company({
       email: email,
       password: email,
-      corporateName: comporateName,
+      corporateName: corporateName,
       popularName: popularName,
       cnpj: cnpj,
       phoneNumber: phoneNumber,

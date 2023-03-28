@@ -23,7 +23,7 @@ export class CompanyController {
       await this.createCompany.execute({
           email: email,
           password: password,
-          comporateName: corporateName,
+          corporateName: corporateName,
           popularName: popularName,
           cnpj: CNPJ,
           phoneNumber: phoneNumber,

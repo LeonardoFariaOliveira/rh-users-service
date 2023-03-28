@@ -11,7 +11,7 @@ describe('Create a company', () => {
       email: 'contato@cyberswitch.dev',
       password: 'melaoazul',
       cnpj: '556750940',
-      comporateName: 'Cyberswitch-Ltda',
+      corporateName: 'Cyberswitch-Ltda',
       popularName: 'CyberSwitch',
       phoneNumber: '11997867461',
       address: new Address(
@@ -36,7 +36,7 @@ describe('Create a company', () => {
         email: null,
         password: 'melaoazul',
         cnpj: '556750940',
-        comporateName: 'Cyberswitch-Ltda',
+        corporateName: 'Cyberswitch-Ltda',
         popularName: 'CyberSwitch',
         phoneNumber: '14998867061',
         address: new Address(
@@ -60,7 +60,7 @@ describe('Create a company', () => {
         email: 'contato@cyberswitch.dev',
         password: null,
         cnpj: '556750940',
-        comporateName: 'Cyberswitch-Ltda',
+        corporateName: 'Cyberswitch-Ltda',
         popularName: 'CyberSwitch',
         phoneNumber: '14998867061',
         address: new Address(
@@ -83,7 +83,7 @@ describe('Create a company', () => {
         email: 'contato@cyberswitch.dev',
         password: 'melaoazul',
         cnpj: null,
-        comporateName: 'Cyberswitch-Ltda',
+        corporateName: 'Cyberswitch-Ltda',
         popularName: 'CyberSwitch',
         phoneNumber: '14998867061',
         address: new Address(
@@ -106,7 +106,7 @@ describe('Create a company', () => {
         email: 'contato@cyberswitch.dev',
         password: 'melaoazul',
         cnpj: '556750940',
-        comporateName: null,
+        corporateName: null,
         popularName: 'CyberSwitch',
         phoneNumber: '14998867061',
         address: new Address(
@@ -130,7 +130,7 @@ describe('Create a company', () => {
         email: 'contato@cyberswitch.dev',
         password: 'melaoazul',
         cnpj: '556750940',
-        comporateName: 'Cyberswitch-Ltda',
+        corporateName: 'Cyberswitch-Ltda',
         popularName: null,
         phoneNumber: '14998867061',
         address: new Address(
@@ -154,7 +154,7 @@ describe('Create a company', () => {
         email: 'contato@cyberswitch.dev',
         password: 'melaoazul',
         cnpj: '556750940',
-        comporateName: 'Cyberswitch-Ltda',
+        corporateName: 'Cyberswitch-Ltda',
         popularName: 'CyberSwitch',
         phoneNumber: null,
         address: new Address(
@@ -165,6 +165,23 @@ describe('Create a company', () => {
           'Mario Toloto',
           '318',
         ),
+      }),
+    ).rejects.toThrow();
+  });
+
+  it('should not be able to create a company without a phone number', async () => {
+    const companyRepository = new InMemoryCompanyRepository();
+    const createCompany = new CreateCompany(companyRepository);
+
+    await expect(
+      createCompany.execute({
+        email: 'contato@cyberswitch.dev',
+        password: 'melaoazul',
+        cnpj: '556750940',
+        corporateName: 'Cyberswitch-Ltda',
+        popularName: 'CyberSwitch',
+        phoneNumber: '14792369633',
+        address: null,
       }),
     ).rejects.toThrow();
   });

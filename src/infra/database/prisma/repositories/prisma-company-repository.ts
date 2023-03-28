@@ -4,7 +4,7 @@ import { CompanyRepository } from "@app/repositories/companyRepository";
 import { PrismaService } from "../prisma.service";
 import { PrismaCompanyMapper } from "../mappers/prisma-company-mapper";
 import { Company, CompanyProps } from "@app/entities/company";
-import { Address } from "@app/entities/address";
+
 
 
 @Injectable()

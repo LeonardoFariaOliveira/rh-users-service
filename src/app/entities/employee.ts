@@ -17,7 +17,7 @@ export interface EmployeeProps {
   createdAt?: Date;
   updatedAt?: Date;
   active?: boolean;
-  company: CompanyProps;
+  companyId: string;
 }
 
 //Update employee interface
@@ -95,6 +95,13 @@ export class Employee {
     this.employeeProps.photoUrl = photoUrl;
   }
 
+  public get companyId(): string {
+    return this.employeeProps.companyId;
+  }
+  public set companyId(companyId: string) {
+    this.employeeProps.companyId = companyId;
+  }
+
   public get salary(): number {
     return this.employeeProps.salary;
   }
@@ -128,12 +135,5 @@ export class Employee {
   }
   public set address(address: Address) {
     this.employeeProps.address = address;
-  }
-
-  public get company(): CompanyProps {
-    return this.employeeProps.company;
-  }
-  public set company(company: CompanyProps) {
-    this.employeeProps.company = company;
   }
 }

@@ -4,7 +4,7 @@ import { CreateCompany } from './create-company';
 import { Address } from '@app/entities/address';
 
 describe('Gets all the companies', () => {
-  it('should be able to create a company', async () => {
+  it('should be able to get all the companies', async () => {
     const companyRepository = new InMemoryCompanyRepository();
     const createCompany = new CreateCompany(companyRepository);
     const findCompanies = new FindCompanies(companyRepository);
@@ -13,7 +13,7 @@ describe('Gets all the companies', () => {
       email: 'contato@gedirh.dev',
       password: 'abacateamarelo',
       cnpj: '556750940',
-      comporateName: 'GediRH-Ltda',
+      corporateName: 'GediRH-Ltda',
       popularName: 'GediRH',
       phoneNumber: '11997867461',
       address: new Address(
@@ -30,7 +30,7 @@ describe('Gets all the companies', () => {
       email: 'contato@cyberswitch.dev',
       password: 'melaoazul',
       cnpj: '556750940',
-      comporateName: 'Cyberswitch-Ltda',
+      corporateName: 'Cyberswitch-Ltda',
       popularName: 'CyberSwitch',
       phoneNumber: '11997867461',
       address: new Address(
@@ -43,7 +43,7 @@ describe('Gets all the companies', () => {
       ),
     });
 
-    const companies = await companyRepository.findMany();
+    const { companies } = await findCompanies.execute();
 
     expect(companies).toHaveLength(2);
   });
