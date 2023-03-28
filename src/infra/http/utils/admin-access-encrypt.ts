@@ -6,9 +6,9 @@ export class AdminAccessEncrypt {
   private iv = randomBytes(16);
   private key = randomBytes(32);
 
-  async execute(name: string) {
+  async execute(text: string) {
     const cipher = createCipheriv(this.hash, this.key, this.iv);
-    let encrypted = cipher.update(name);
+    let encrypted = cipher.update(text);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
     return {
       iv: this.iv.toString('hex'),

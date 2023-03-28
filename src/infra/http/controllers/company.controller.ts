@@ -43,7 +43,7 @@ export class CompanyController {
     }catch(e){
       return {
         //Bad request, status 400
-        status:400,
+        status:404,
         message:e
       }
     }

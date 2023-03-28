@@ -70,13 +70,13 @@ export class CreateCompany {
       phoneNumber: phoneNumber,
       photoUrl: photoUrl,
       address: new Address(
-        address.id,
         address.countryValue,
         address.countryAreaValue,
         address.cityValue,
         address.neighboorValue,
         address.streetValue,
         address.numberValue,
+        address.id,
       ),
     });
 

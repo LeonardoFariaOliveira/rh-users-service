@@ -1,5 +1,4 @@
 import { Address } from './address';
-import { Company } from './company';
 import { Employee } from './employee';
 
 describe('Employee', () => {

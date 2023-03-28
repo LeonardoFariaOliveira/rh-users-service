@@ -1,9 +1,9 @@
 import { randomUUID } from 'crypto';
 import { Address } from './address';
-import { CompanyProps } from './company';
 
 //Employee principal interface, we use to create and list
 export interface EmployeeProps {
+  id?: string;
   name: string;
   CPF: string;
   CTPS: string;

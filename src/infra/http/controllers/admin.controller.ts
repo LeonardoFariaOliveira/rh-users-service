@@ -5,7 +5,7 @@ import { CreateAdminBody } from '../dtos/create-admin-body';
 import { AdminAccessEncrypt } from '../utils/admin-access-encrypt';
 
 
-@Controller('')
+@Controller('v1')
 export class AdminController {
   constructor(
     private createAdmin: CreateAdmin,

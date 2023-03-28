@@ -3,7 +3,7 @@ import { Address } from '@app/entities/address';
 import { Employee, EmployeeProps } from '@app/entities/employee';
 import { EmployeeRepository } from '@app/repositories/employeeRepository';
 
-//Company's request interface, is that we need from user to create a company, but in domain layer
+//Employee's request interface, is that we need from user to create an employee, but in domain layer
 interface CreateEmployeeRequest {
   name: string;
   CPF: string;
@@ -18,7 +18,7 @@ interface CreateEmployeeRequest {
   companyId: string;
 }
 
-//Company's response interface, is that we can return to user when he creates a company, but in domain layer
+//Employee's response interface, is that we can return to user when he creates an employee, but in domain layer
 interface CreateEmployeeResponse {
   employee: EmployeeProps;
 }
@@ -77,7 +77,7 @@ export class CreateEmployee {
       throw new Error('Company should be part of a company');
     }
 
-    //Creates a object company
+    //Creates a object employee
     const employee = new Employee({
       name: name,
       CPF: CPF,
@@ -89,18 +89,18 @@ export class CreateEmployee {
       photoUrl: photoUrl,
       birthDate: birthDate,
       address: new Address(
-        address.id,
         address.countryValue,
         address.countryAreaValue,
         address.cityValue,
         address.neighboorValue,
         address.streetValue,
         address.numberValue,
+        address.id,
       ),
       companyId: companyId,
     });
 
-    //Creates a company
+    //Creates an employee
     await this.employeeRepository.create(employee);
 
     return {
