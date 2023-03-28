@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { Admin, AdminProps } from '../../entities/admin';
 import { AdminRepository } from '../../repositories/adminRepository';
 
-//Admins request interface, is what we need from user to create a admin, but in domain layer
+//Admins request interface, is what we need from user to create an admin, but in domain layer
 interface CreateAdminRequest {
   name: string;
   user: string;
   password: string;
 }
 
-//Admins response interface, is what we can return to user when he creates a admin, but in domain layer
+//Admins response interface, is what we can return to user when he creates an admin, but in domain layer
 interface CreateAdminResponse {
   admin: AdminProps;
 }

@@ -3,6 +3,7 @@ import { Company, CompanyProps } from '../../entities/company';
 import { CompanyRepository } from '../../repositories/companyRepository';
 import { Address } from '@app/entities/address';
 
+//Company's request interface, is that we need from user to create a company, but in domain layer
 interface CreateCompanyRequest {
   email: string;
   password: string;
@@ -14,12 +15,14 @@ interface CreateCompanyRequest {
   address: Address;
 }
 
+//Company's response interface, is that we can return to user when he creates a company, but in domain layer
 interface CreateCompanyResponse {
   company: CompanyProps;
 }
 
 @Injectable()
 export class CreateCompany {
+  //Dependencies injection
   constructor(private companyRepository: CompanyRepository) {}
 
   async execute(request: CreateCompanyRequest): Promise<CreateCompanyResponse> {
@@ -34,6 +37,7 @@ export class CreateCompany {
       photoUrl,
     } = request;
 
+    //Verify and throws errors
     if (!email) {
       throw new Error('Company should have an email name');
     }
@@ -56,6 +60,7 @@ export class CreateCompany {
       throw new Error('Company should have an address');
     }
 
+    //Creates a object company
     const company = new Company({
       email: email,
       password: email,
@@ -75,6 +80,7 @@ export class CreateCompany {
       ),
     });
 
+    //Creates a company
     await this.companyRepository.create(company);
 
     return {
