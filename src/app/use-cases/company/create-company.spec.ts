@@ -13,14 +13,14 @@ describe('Create a company', () => {
       cnpj: '556750940',
       comporateName: 'Cyberswitch-Ltda',
       popularName: 'CyberSwitch',
-      phoneNumber: '14998867061',
+      phoneNumber: '11997867461',
       address: new Address(
         'Brasil',
         'São Paulo',
-        'Ourinhos',
+        'Marília',
         'Ouro Verde',
         'Mario Toloto',
-        '318',
+        '412',
       ),
     });
 

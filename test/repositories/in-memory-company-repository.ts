@@ -8,7 +8,7 @@ export class InMemoryCompanyRepository implements CompanyRepository {
     this.companies.push(company);
   }
 
-  async findMany(): Promise<CompanyProps> {
-    throw new Error('Method not implemented.');
+  async findMany() {
+    return this.companies;
   }
 }

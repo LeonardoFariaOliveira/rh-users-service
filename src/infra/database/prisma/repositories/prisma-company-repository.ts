@@ -3,7 +3,8 @@ import { Injectable } from "@nestjs/common";
 import { CompanyRepository } from "@app/repositories/companyRepository";
 import { PrismaService } from "../prisma.service";
 import { PrismaCompanyMapper } from "../mappers/prisma-company-mapper";
-import { CompanyProps } from "@app/entities/company";
+import { Company, CompanyProps } from "@app/entities/company";
+import { Address } from "@app/entities/address";
 
 
 @Injectable()
@@ -40,8 +41,32 @@ export class PrismaCompanyRepository implements CompanyRepository{
         })
     }
 
-    findMany(): Promise<CompanyProps> {
-        throw new Error("Method not implemented.");
+    //Gets all the companies
+    async findMany(): Promise<Company[]> {
+        const companies = await this.prismaService.company.findMany({
+            select:{
+                email:true,
+                popularName:true,
+                corporateName:true,
+                password:true,
+                CNPJ:true,
+                createdAt:true,
+                address:true,
+                id:true,
+                active:true,
+                phoneNumber:true,
+                photoUrl:true,
+                updatedAt:true
+            },
+            orderBy:{
+                createdAt: "desc"
+            }
+        })
+
+        return companies.map((company)=> {
+                return PrismaCompanyMapper.toDomain(company, company.address)
+        })
+            
     }
 
     // async findById(userId: string): Promise<User> {

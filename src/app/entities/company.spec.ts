@@ -7,7 +7,7 @@ describe('Company', () => {
       email: 'contato@cyberswitch.dev',
       password: 'melaoazul',
       cnpj: '556750940',
-      comporateName: 'Cyberswitch-Ltda',
+      corporateName: 'Cyberswitch-Ltda',
       popularName: 'CyberSwitch',
       phoneNumber: '14998867061',
       address: new Address(
@@ -28,7 +28,7 @@ describe('Company', () => {
         email: 'contato@cyberswitch.dev',
         password: 'melaoazul',
         cnpj: '556750940',
-        comporateName: 'Cyberswitch-Ltda',
+        corporateName: 'Cyberswitch-Ltda',
         popularName: 'CyberSwitch',
         phoneNumber: '14998867061',
         address: new Address(
@@ -50,7 +50,7 @@ describe('Company', () => {
       email: 'contato@cyberswitch.dev',
       password: 'melaoazul',
       cnpj: '556750940',
-      comporateName: 'Cyberswitch-Ltda',
+      corporateName: 'Cyberswitch-Ltda',
       popularName: 'CyberSwitch',
       phoneNumber: '14998867061',
       photoUrl: 'rhnjenejknvkerj.png',

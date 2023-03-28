@@ -3,12 +3,15 @@ import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateCompany } from '@app/use-cases/company/create-company';
 import { CreateCompanyBody } from '../dtos/create-company-body';
 import { Address } from '@app/entities/address';
+import { FindCompanies } from '@app/use-cases/company/find-companies';
+import { CompanyViewModule } from '../views/companies-view-module';
 
 
-@Controller('company')
+@Controller('v1/company')
 export class CompanyController {
   constructor(
     private createCompany: CreateCompany,
+    private findCompanies: FindCompanies
   ) {}
 
   //Path to create a company
@@ -49,16 +52,14 @@ export class CompanyController {
 
   }
 
-//   @Get('/:id')
-//   async findOne(@Param('id') id: string) {
-//     const { user } = await this.getUserData.execute({
-//       userId: id,
-//     });
-
-//     return {
-//       user: UserViewModule.toHTTP(user),
-//     };
-//   }
+  //Path to get the companies
+  @Get('')
+  async getCompanies() {
+    const {companies} = await this.findCompanies.execute();
+    return {
+      companies: companies.map((company)=>CompanyViewModule.manyCompaniesToHTTP(company)),
+    };
+  }
 
 //   @Patch('/:id/')
 //   async update(@Param('id') id: string, @Body() body: CreateUserBody) {

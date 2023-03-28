@@ -5,10 +5,11 @@ import { AdminController } from './controllers/admin.controller';
 import { AdminAccessEncrypt } from './utils/admin-access-encrypt';
 import { CreateCompany } from '@app/use-cases/company/create-company';
 import { CompanyController } from './controllers/company.controller';
+import { FindCompanies } from '@app/use-cases/company/find-companies';
 
 @Module({
   imports: [DatabaseModule],
   controllers: [AdminController, CompanyController],
-  providers: [CreateAdmin, AdminAccessEncrypt, CreateCompany],
+  providers: [CreateAdmin, AdminAccessEncrypt, CreateCompany, FindCompanies],
 })
 export class HTTPModule {}

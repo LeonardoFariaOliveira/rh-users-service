@@ -5,7 +5,7 @@ import { Address } from './address';
 //Company principal interface, we use to create and list.
 // Extends user's interface to inherit user's properties
 export interface CompanyProps extends UserProps {
-  comporateName: string;
+  corporateName: string;
   popularName: string;
   cnpj: string;
   photoUrl?: string;
@@ -16,7 +16,7 @@ export interface CompanyProps extends UserProps {
 //Update company interface
 export interface CompanyUpdateProps {
   id: string;
-  comporateName?: string;
+  corporateName?: string;
   popularName?: string;
   cnpj?: string;
   phoneNumber?: string;
@@ -41,11 +41,11 @@ export class Company extends User {
     };
   }
 
-  public get comporateName(): string {
-    return this.companyProps.comporateName;
+  public get corporateName(): string {
+    return this.companyProps.corporateName;
   }
-  public set comporateName(comporateName: string) {
-    this.companyProps.comporateName = comporateName;
+  public set corporateName(corporateName: string) {
+    this.companyProps.corporateName = corporateName;
   }
 
   public get popularName(): string {
