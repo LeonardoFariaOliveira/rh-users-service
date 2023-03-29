@@ -63,7 +63,7 @@ export class CreateCompany {
     //Creates a object company
     const company = new Company({
       email: email,
-      password: email,
+      password: password,
       corporateName: corporateName,
       popularName: popularName,
       cnpj: cnpj,

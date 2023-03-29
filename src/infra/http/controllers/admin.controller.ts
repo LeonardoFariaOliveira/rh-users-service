@@ -18,7 +18,7 @@ export class AdminController {
     const {name} = body;
 
     //Encrypt the name of admin to generate an access and then a password
-    const {encryptedData, iv} = await this.adminAccessEncrypt.execute(name)
+    const {encryptedData} = await this.adminAccessEncrypt.execute(name)
     const user = encryptedData.slice(0, 9)
     const encrPass = await this.adminAccessEncrypt.execute(user)
     const password = encrPass.encryptedData.slice(0,9)

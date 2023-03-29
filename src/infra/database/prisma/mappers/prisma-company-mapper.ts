@@ -54,4 +54,31 @@ export class PrismaCompanyMapper {
       raw.id,
     );
   }
+
+  //Here we take data from persistence layer ans mask to domain layer
+  static toDomainLogin(raw: rawCompany, rawAddress: rawAddress): Company {
+    const adminAccessEncrypt = new AdminAccessEncrypt();
+    const pass = adminAccessEncrypt.executeInverse(raw.password);
+    console.log(pass);
+    return new Company(
+      {
+        email: raw.email,
+        password: pass,
+        corporateName: raw.corporateName,
+        popularName: raw.popularName,
+        cnpj: raw.CNPJ,
+        phoneNumber: raw.phoneNumber,
+        photoUrl: raw.photoUrl,
+        address: new Address(
+          rawAddress.country,
+          rawAddress.countryArea,
+          rawAddress.city,
+          rawAddress.neighboor,
+          rawAddress.street,
+          rawAddress.number,
+        ),
+      },
+      raw.id,
+    );
+  }
 }

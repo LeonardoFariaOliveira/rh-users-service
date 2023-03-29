@@ -3,7 +3,6 @@ import { EmployeeRepository } from '@app/repositories/employeeRepository';
 import { PrismaService } from '../prisma.service';
 import { PrismaEmployeeMapper } from '../mappers/prisma-employee-mapper';
 import { Employee, EmployeeProps } from '@app/entities/employee';
-import { Address } from '@app/entities/address';
 
 @Injectable()
 export class PrismaEmployeeRepository implements EmployeeRepository {

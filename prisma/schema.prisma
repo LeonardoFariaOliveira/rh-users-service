@@ -15,7 +15,7 @@ datasource db {
 model Admin{
   id String @id
   name String
-  user String
+  user String @unique
   password String
   active Boolean @default(true)
   passwordResetRequests PasswordResetRequest[]

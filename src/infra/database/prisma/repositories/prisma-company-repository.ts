@@ -66,6 +66,30 @@ export class PrismaCompanyRepository implements CompanyRepository {
     });
   }
 
+  async findCompanyByEmail(email: string): Promise<CompanyProps> {
+    const company = await this.prismaService.company.findUnique({
+      select: {
+        email: true,
+        popularName: true,
+        corporateName: true,
+        password: true,
+        CNPJ: true,
+        createdAt: true,
+        address: true,
+        id: true,
+        active: true,
+        phoneNumber: true,
+        photoUrl: true,
+        updatedAt: true,
+      },
+      where: {
+        email: email,
+      },
+    });
+
+    return PrismaCompanyMapper.toDomainLogin(company, company.address);
+  }
+
   // async findById(userId: string): Promise<User> {
   //     const user = await this.prismaService.user.findUnique({
   //         where:{

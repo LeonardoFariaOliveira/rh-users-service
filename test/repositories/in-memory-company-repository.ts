@@ -11,4 +11,10 @@ export class InMemoryCompanyRepository implements CompanyRepository {
   async findMany() {
     return this.companies;
   }
+
+  async findCompanyByEmail(email: string): Promise<CompanyProps> {
+    return this.companies.find((company) => {
+      return company.email === email ? true : false;
+    });
+  }
 }
