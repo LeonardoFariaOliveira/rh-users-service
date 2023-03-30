@@ -26,12 +26,21 @@ export class AdminAuthProvider {
     throw new UnauthorizedException('Acesso ou Senha Inválidos');
   }
 
+  // async verifyToken(token: string): Promise<boolean> {
+  //   if (!token) {
+  //     throw new UnauthorizedException('Acesso não autorizado, sem token');
+  //     return false;
+  //   }
+  //   console.log(this.jwtService.verify(token));
+  //   return true;
+  // }
+
   async generateToken(payload: AdminProps) {
     return {
-      access_token: this.jwtService.sign(
+      access_token: this.jwtService.signAsync(
         { user: payload.user },
         {
-          secret: 'topSecret512',
+          secret: process.env.secret,
           expiresIn: '50s',
         },
       ),

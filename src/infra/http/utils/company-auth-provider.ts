@@ -27,12 +27,23 @@ export class CompanyAuthProvider {
     throw new UnauthorizedException('Email ou Senha Inválidos');
   }
 
+  // async verifyToken(token: string): Promise<boolean> {
+  //   if (!token) {
+  //     throw new UnauthorizedException('Acesso não autorizado, sem token');
+  //     return false;
+  //   }
+  //   console.log(this.jwtService.verify(token));
+  //   return true;
+  // }
+
   async generateToken(payload: CompanyProps) {
     return {
-      access_token: this.jwtService.sign(
-        { email: payload.email },
+      access_token: this.jwtService.signAsync(
         {
-          secret: 'topSecret512',
+          email: payload.email,
+        },
+        {
+          secret: process.env.secret,
           expiresIn: '50s',
         },
       ),

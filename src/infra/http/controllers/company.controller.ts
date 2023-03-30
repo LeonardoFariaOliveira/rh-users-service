@@ -1,10 +1,11 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UseGuards, Request } from '@nestjs/common';
 import { CreateCompany } from '@app/use-cases/company/create-company';
 import { CreateCompanyBody } from '../dtos/create-company-body';
 import { Address } from '@app/entities/address';
 import { FindCompanies } from '@app/use-cases/company/find-companies';
 import { CompanyViewModule } from '../views/companies-view-module';
+import { AuthGuard } from '../utils/company-auth-guard';
 
 
 @Controller('v1/company')
@@ -53,8 +54,11 @@ export class CompanyController {
   }
 
   //Path to get the companies
+  @UseGuards(AuthGuard)
   @Get('')
-  async getCompanies() {
+  async getCompanies(@Request() req) {
+    console.log(req)
+    console.log("fff")
     const {companies} = await this.findCompanies.execute();
     return {
       count: companies.length,
@@ -120,3 +124,5 @@ export class CompanyController {
 //     };
 //   }
 }
+
+
