@@ -1,13 +1,14 @@
 import { Admin, AdminProps } from '@app/entities/admin';
-import { AdminAccessEncrypt } from '@infra/http/utils/admin-access-encrypt';
+import { AccessCryptography } from '@infra/http/utils/access-cryptography';
 import { Admin as rawAdmin } from '@prisma/client';
 
 export class PrismaAdminMapper {
+  static accessCryptography = new AccessCryptography();
+
   //Here we take data from domain layer ans mask to persistence layer
   static async toPrisma(admin: AdminProps) {
-    const encrypter = new AdminAccessEncrypt();
-    const enc = await encrypter.execute(admin.password);
-    const password = enc.encryptedData;
+    const enc = this.accessCryptography.encrypt(admin.password);
+    const password = enc.encryptedData.slice(0, 9);
     return {
       id: admin.id,
       name: admin.name,

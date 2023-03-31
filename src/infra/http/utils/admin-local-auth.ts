@@ -2,23 +2,27 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AdminAuthProvider } from './admin-auth-provider';
-import { AdminProps } from '@app/entities/admin';
+import { UserAccessAuthProvider } from './user-access-auth-provider';
+import { FindAdminByUser } from '@app/use-cases/admin/find-admin-by-user';
 
 @Injectable()
 export class AdminLocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private adminAuthService: AdminAuthProvider) {
+  constructor(
+    private userAccessAuthProvider: UserAccessAuthProvider,
+    private readonly findAdminByUser: FindAdminByUser,
+  ) {
     super();
   }
 
   async validate(username: string, password: string): Promise<string> {
-    const adminToken = await this.adminAuthService.adminValidate(
-      username,
-      password,
-    );
-    if (!adminToken) {
-      throw new UnauthorizedException();
+    const { admin } = await this.findAdminByUser.execute(username);
+    if (!admin) {
+      throw new UnauthorizedException('Acesso ou Senha Inválidos');
     }
-    return adminToken;
+    if (admin.password === password) {
+      return (await this.userAccessAuthProvider.generateToken(admin))
+        .access_token;
+    }
+    throw new UnauthorizedException('Acesso ou Senha Inválidos');
   }
 }

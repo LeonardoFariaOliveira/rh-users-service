@@ -26,6 +26,7 @@ export class Admin {
 
   //Constructor to initialize the object Admin and responsable to create self object
   constructor(props: AdminProps, id?: string, createdAt?: Date) {
+    //Making this I give the option to pass an id to create an admin
     this._id = id ?? randomUUID();
     this.props = {
       ...props,

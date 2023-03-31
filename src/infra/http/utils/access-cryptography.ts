@@ -1,12 +1,8 @@
 import { createCipheriv, createDecipheriv } from 'crypto';
 
 //Class that encrypt the name
-export class AdminAccessEncrypt {
-  // private hash = 'aes-256-cbc';
-  // private iv = '5183666c72eec9e4';
-  // private key = 'bf3c199c2470cb477d907b1e0917c17b';
-
-  async execute(text: string) {
+export class AccessCryptography {
+  encrypt(text: string) {
     const cipher = createCipheriv(
       process.env.hash,
       process.env.key,
@@ -21,7 +17,7 @@ export class AdminAccessEncrypt {
     };
   }
 
-  executeInverse(text: string) {
+  decrypt(text: string) {
     const decipher = createDecipheriv(
       process.env.hash,
       process.env.key,

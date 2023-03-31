@@ -1,10 +1,19 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateEmployee } from '@app/use-cases/employee/create-employee';
 import { CreateEmployeeBody } from '../dtos/create-employee-body';
 import { Address } from '@app/entities/address';
 import { DateMask } from '../utils/date-mask';
 import { FindEmployeeByCompanyId } from '@app/use-cases/employee/find-employee-by-company-id';
 import { EmployeesViewModule } from '../views/employees-view-module';
+import { AuthGuard } from '../utils/auth-guard';
 
 @Controller('v1/employees')
 export class EmployeeController {
@@ -15,6 +24,7 @@ export class EmployeeController {
   ) {}
 
   //Path to create an employee
+  @UseGuards(AuthGuard)
   @Post('')
   async create(@Body() body: CreateEmployeeBody) {
     const {
@@ -66,6 +76,7 @@ export class EmployeeController {
   }
 
   //Path to get the companies
+  @UseGuards(AuthGuard)
   @Get('/:companyId')
   async getEmployeesByCompanyId(@Param('companyId') companyId: string) {
     try {

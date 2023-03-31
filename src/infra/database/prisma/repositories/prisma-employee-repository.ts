@@ -38,33 +38,7 @@ export class PrismaEmployeeRepository implements EmployeeRepository {
     });
   }
 
-  //Gets all the companies
-  //   async findMany(): Promise<Company[]> {
-  //     const companies = await this.prismaService.company.findMany({
-  //       select: {
-  //         email: true,
-  //         popularName: true,
-  //         corporateName: true,
-  //         password: true,
-  //         CNPJ: true,
-  //         createdAt: true,
-  //         address: true,
-  //         id: true,
-  //         active: true,
-  //         phoneNumber: true,
-  //         photoUrl: true,
-  //         updatedAt: true,
-  //       },
-  //       orderBy: {
-  //         createdAt: 'desc',
-  //       },
-  //     });
-
-  //     return companies.map((company) => {
-  //       return PrismaCompanyMapper.toDomain(company, company.address);
-  //     });
-  //   }
-
+  //Gets all the employees of a specific company from database by a company id
   async findEmployeesByCompanyId(companyId: string): Promise<Employee[]> {
     const employees = await this.prismaService.employee.findMany({
       select: {

@@ -1,13 +1,14 @@
 import { Address } from '@app/entities/address';
 import { Company, CompanyProps } from '@app/entities/company';
-import { AdminAccessEncrypt } from '@infra/http/utils/admin-access-encrypt';
+import { AccessCryptography } from '@infra/http/utils/access-cryptography';
 import { Company as rawCompany } from '@prisma/client';
 import { Address as rawAddress } from '@prisma/client';
 export class PrismaCompanyMapper {
+  static accessCryptography = new AccessCryptography();
+
   //Here we take data from domain layer ans mask to persistence layer
   static async toPrisma(company: CompanyProps) {
-    const encrypter = new AdminAccessEncrypt();
-    const enc = await encrypter.execute(company.password);
+    const enc = this.accessCryptography.encrypt(company.password);
     const password = enc.encryptedData;
     return {
       id: company.id,
@@ -55,15 +56,13 @@ export class PrismaCompanyMapper {
     );
   }
 
-  //Here we take data from persistence layer ans mask to domain layer
+  //Here we take data from persistence layer ans mask to domain layer, decrypting the password to the login
   static toDomainLogin(raw: rawCompany, rawAddress: rawAddress): Company {
-    const adminAccessEncrypt = new AdminAccessEncrypt();
-    const pass = adminAccessEncrypt.executeInverse(raw.password);
-    console.log(pass);
+    const password = this.accessCryptography.decrypt(raw.password);
     return new Company(
       {
         email: raw.email,
-        password: pass,
+        password: password,
         corporateName: raw.corporateName,
         popularName: raw.popularName,
         cnpj: raw.CNPJ,

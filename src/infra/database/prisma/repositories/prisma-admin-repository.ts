@@ -16,6 +16,7 @@ export class PrismaAdminRepository implements AdminRepository {
     });
   }
 
+  //Gets an admin from database by user access
   async findAdminByUser(user: string): Promise<AdminProps> {
     return await this.prismaService.admin.findUnique({
       where: {

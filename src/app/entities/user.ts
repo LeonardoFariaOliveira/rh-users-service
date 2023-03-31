@@ -22,6 +22,7 @@ export class User {
   private props: UserProps;
 
   constructor(email: string, password: string, id?: string, createdAt?: Date) {
+    //Making this I give the option to pass an id to create a user
     this._id = id ?? randomUUID();
     this.props = {
       email: email,

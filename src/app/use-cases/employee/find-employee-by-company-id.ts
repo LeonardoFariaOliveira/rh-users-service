@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { EmployeeProps } from '../../entities/employee';
 import { EmployeeRepository } from '../../repositories/employeeRepository';
 
-//Company's response interface, is that we can return to user when he requests a list of companies
+//Employee's response interface, is that we can return to a company when it requests the list of it employees
 interface FindEmployeeByCompanyIdResponse {
   employees: EmployeeProps[];
 }
@@ -13,7 +13,7 @@ export class FindEmployeeByCompanyId {
   constructor(private employeeRepository: EmployeeRepository) {}
 
   async execute(companyId: string): Promise<FindEmployeeByCompanyIdResponse> {
-    //Get all the companies
+    //Get the list of employees
     const employees = await this.employeeRepository.findEmployeesByCompanyId(
       companyId,
     );

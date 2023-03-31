@@ -40,6 +40,7 @@ export class Employee {
   private employeeProps: EmployeeProps;
 
   constructor(props: EmployeeProps, id?: string, createdAt?: Date) {
+    //Making this I give the option to pass an id to create a employee
     this._id = id ?? randomUUID();
     this.employeeProps = {
       ...props,

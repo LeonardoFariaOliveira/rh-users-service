@@ -2,23 +2,26 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { CompanyAuthProvider } from './company-auth-provider';
-import { CompanyProps } from '@app/entities/company';
+import { EmailAuthProvider } from './email-auth-provider';
+import { FindCompanyByEmail } from '@app/use-cases/company/find-company-by-email';
 
 @Injectable()
 export class CompanyLocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private companyAuthService: CompanyAuthProvider) {
+  constructor(
+    private emailAuthProvider: EmailAuthProvider,
+    private readonly findCompanyByEmail: FindCompanyByEmail,
+  ) {
     super();
   }
 
   async validate(email: string, password: string): Promise<string> {
-    const companyToken = await this.companyAuthService.companyValidate(
-      email,
-      password,
-    );
-    if (!companyToken) {
-      throw new UnauthorizedException();
+    const { company } = await this.findCompanyByEmail.execute(email);
+    if (!company) {
+      throw new UnauthorizedException('Email ou Senha Inválidos');
     }
-    return companyToken;
+    if (company.password === password) {
+      return (await this.emailAuthProvider.generateToken(company)).access_token;
+    }
+    throw new UnauthorizedException('Email ou Senha Inválidos');
   }
 }

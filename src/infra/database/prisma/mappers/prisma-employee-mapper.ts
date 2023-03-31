@@ -20,7 +20,7 @@ export class PrismaEmployeeMapper {
       address: {
         create: {},
       },
-      companyId: '',
+      companyId: employee.companyId,
     };
   }
 

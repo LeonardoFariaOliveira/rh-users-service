@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CompanyProps } from '../../entities/company';
 import { CompanyRepository } from '../../repositories/companyRepository';
 
-//Company's response interface, is that we can return to user when he requests a list of companies
+//Company's response interface, is that we can return to user when he gets log in or requets a specific company by email
 interface FindCompanyByEmailResponse {
   company: CompanyProps;
 }
@@ -13,7 +13,7 @@ export class FindCompanyByEmail {
   constructor(private companyRepository: CompanyRepository) {}
 
   async execute(email: string): Promise<FindCompanyByEmailResponse> {
-    //Get all the companies
+    //Get the company access
     const company = await this.companyRepository.findCompanyByEmail(email);
     return {
       company,

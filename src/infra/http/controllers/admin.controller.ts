@@ -1,115 +1,123 @@
-/* eslint-disable prettier/prettier */
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateAdmin } from '@app/use-cases/admin/create-admin';
 import { CreateAdminBody } from '../dtos/create-admin-body';
-import { AdminAccessEncrypt } from '../utils/admin-access-encrypt';
-
+import { AccessCryptography } from '../utils/access-cryptography';
+import { CreateAdminAuthBody } from '../dtos/create-admin-auth-body';
+import { AdminLocalStrategy } from '../utils/admin-local-auth';
 
 @Controller('v1')
 export class AdminController {
   constructor(
     private createAdmin: CreateAdmin,
-    private adminAccessEncrypt: AdminAccessEncrypt
+    private accessCryptography: AccessCryptography,
+    private adminLocalStrategy: AdminLocalStrategy,
   ) {}
 
   //Path to create an admin
   @Post('03202327')
   async create(@Body() body: CreateAdminBody) {
-    const {name} = body;
+    const { name } = body;
 
     //Encrypt the name of admin to generate an access and then a password
-    const {encryptedData} = await this.adminAccessEncrypt.execute(name)
-    const user = encryptedData.slice(0, 9)
-    const encrPass = await this.adminAccessEncrypt.execute(user)
-    const password = encrPass.encryptedData.slice(0,9)
-    try{
+    const { encryptedData } = this.accessCryptography.encrypt(name);
+    const user = encryptedData.slice(0, 9);
+    const encrPass = this.accessCryptography.encrypt(user);
+    const password = encrPass.encryptedData.slice(0, 9);
+    try {
       await this.createAdmin.execute({
         name,
         user,
-        password
+        password,
       });
       //Created, status 200
       return {
         message: 'Ok',
       };
-    }catch(e){
+    } catch (e) {
       return {
         //Bad request, status 400
-        status:400,
-        message:e
-      }
+        status: 400,
+        message: e,
+      };
     }
-
-
-
   }
 
-//   @Get('/:id')
-//   async findOne(@Param('id') id: string) {
-//     const { user } = await this.getUserData.execute({
-//       userId: id,
-//     });
+  //Path to admin sign in
+  @Post('auth/login')
+  async login(@Body() body: CreateAdminAuthBody) {
+    const { user, password } = body;
+    const token = await this.adminLocalStrategy.validate(user, password);
+    return {
+      jwtToken: token,
+    };
+  }
 
-//     return {
-//       user: UserViewModule.toHTTP(user),
-//     };
-//   }
+  //   @Get('/:id')
+  //   async findOne(@Param('id') id: string) {
+  //     const { user } = await this.getUserData.execute({
+  //       userId: id,
+  //     });
 
-//   @Patch('/:id/')
-//   async update(@Param('id') id: string, @Body() body: CreateUserBody) {
-//     const {
-//       email,
-//       password,
-//       firstName,
-//       lastName,
-//       CPF,
-//       phone,
-//       city,
-//       birthDate,
-//       country,
-//       photo_url,
-//     } = body;
+  //     return {
+  //       user: UserViewModule.toHTTP(user),
+  //     };
+  //   }
 
-//     const { user } = await this.updateUserData.execute({
-//       id: id,
-//       email: email,
-//       password: password,
-//       firstName: firstName,
-//       lastName: lastName,
-//       CPF: CPF,
-//       phone: phone,
-//       city: city,
-//       birthDate: birthDate,
-//       country: country,
-//       photoUrl: photo_url,
-//     });
+  //   @Patch('/:id/')
+  //   async update(@Param('id') id: string, @Body() body: CreateUserBody) {
+  //     const {
+  //       email,
+  //       password,
+  //       firstName,
+  //       lastName,
+  //       CPF,
+  //       phone,
+  //       city,
+  //       birthDate,
+  //       country,
+  //       photo_url,
+  //     } = body;
 
-//     console.log(user);
+  //     const { user } = await this.updateUserData.execute({
+  //       id: id,
+  //       email: email,
+  //       password: password,
+  //       firstName: firstName,
+  //       lastName: lastName,
+  //       CPF: CPF,
+  //       phone: phone,
+  //       city: city,
+  //       birthDate: birthDate,
+  //       country: country,
+  //       photoUrl: photo_url,
+  //     });
 
-//     return {
-//       user: UserViewModule.toHTTP(await user),
-//     };
-//   }
+  //     console.log(user);
 
-//   @Patch('/:id/deadactivate')
-//   async turnOff(@Param('id') id: string) {
-//     await this.turnOffUser.execute({
-//       userId: id,
-//     });
+  //     return {
+  //       user: UserViewModule.toHTTP(await user),
+  //     };
+  //   }
 
-//     return {
-//       message: 'Ok',
-//     };
-//   }
+  //   @Patch('/:id/deadactivate')
+  //   async turnOff(@Param('id') id: string) {
+  //     await this.turnOffUser.execute({
+  //       userId: id,
+  //     });
 
-//   @Patch('/:id/activate')
-//   async turnOn(@Param('id') id: string) {
-//     await this.turnOnUser.execute({
-//       userId: id,
-//     });
+  //     return {
+  //       message: 'Ok',
+  //     };
+  //   }
 
-//     return {
-//       message: 'Ok',
-//     };
-//   }
+  //   @Patch('/:id/activate')
+  //   async turnOn(@Param('id') id: string) {
+  //     await this.turnOnUser.execute({
+  //       userId: id,
+  //     });
+
+  //     return {
+  //       message: 'Ok',
+  //     };
+  //   }
 }

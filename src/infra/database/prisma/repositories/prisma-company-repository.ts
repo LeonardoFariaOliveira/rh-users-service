@@ -3,16 +3,16 @@ import { CompanyRepository } from '@app/repositories/companyRepository';
 import { PrismaService } from '../prisma.service';
 import { PrismaCompanyMapper } from '../mappers/prisma-company-mapper';
 import { Company, CompanyProps } from '@app/entities/company';
-import { AdminAccessEncrypt } from '@infra/http/utils/admin-access-encrypt';
+import { AccessCryptography } from '@infra/http/utils/access-cryptography';
 
 @Injectable()
 export class PrismaCompanyRepository implements CompanyRepository {
   constructor(private prismaService: PrismaService) {}
+  private accessCryptography = new AccessCryptography();
 
   //Create a company on database
   async create(company: CompanyProps): Promise<void> {
-    const encrypter = new AdminAccessEncrypt();
-    const enc = await encrypter.execute(company.password);
+    const enc = this.accessCryptography.encrypt(company.password);
     const password = enc.encryptedData;
     await this.prismaService.company.create({
       data: {
@@ -39,7 +39,7 @@ export class PrismaCompanyRepository implements CompanyRepository {
     });
   }
 
-  //Gets all the companies
+  //Gets all the companies from database
   async findMany(): Promise<Company[]> {
     const companies = await this.prismaService.company.findMany({
       select: {
@@ -66,6 +66,7 @@ export class PrismaCompanyRepository implements CompanyRepository {
     });
   }
 
+  //Gets a company from database by email
   async findCompanyByEmail(email: string): Promise<CompanyProps> {
     const company = await this.prismaService.company.findUnique({
       select: {

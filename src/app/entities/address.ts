@@ -19,6 +19,7 @@ export class Address {
     number: string,
     id?: string,
   ) {
+    //Making this I give the option to pass an id to create an address
     this._id = id ?? randomUUID();
     (this.country = country),
       (this.countryArea = countryArea),
