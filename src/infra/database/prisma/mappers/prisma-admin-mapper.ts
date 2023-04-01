@@ -13,7 +13,7 @@ export class PrismaAdminMapper {
       id: admin.id,
       name: admin.name,
       user: admin.user,
-      password: password,
+      password: admin.password,
       active: admin.active,
     };
   }
