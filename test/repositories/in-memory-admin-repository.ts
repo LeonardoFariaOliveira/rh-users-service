@@ -6,6 +6,9 @@ export class InMemoryAdminRepository implements AdminRepository {
 
   async create(admin: AdminProps) {
     this.admins.push(admin);
+    return this.admins.find((adminSaved) => {
+      return adminSaved.user === admin.user ? true : false;
+    });
   }
 
   async findAdminByUser(user: string) {

@@ -24,14 +24,14 @@ export class AdminController {
     const encrPass = this.accessCryptography.encrypt(user);
     const password = encrPass.encryptedData.slice(0, 9);
     try {
-      await this.createAdmin.execute({
+      const { admin } = await this.createAdmin.execute({
         name,
         user,
         password,
       });
       //Created, status 200
       return {
-        message: 'Ok',
+        admin: admin,
       };
     } catch (e) {
       return {
