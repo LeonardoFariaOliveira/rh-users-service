@@ -16,7 +16,7 @@ import { AuthGuard } from '../utils/auth-guard';
 import { CompanyLocalStrategy } from '../utils/company-local-auth';
 import { CreateCompanyAuthBody } from '../dtos/create-company-auth-body';
 
-@Controller('v1/company')
+@Controller('v1/companies')
 export class CompanyController {
   constructor(
     private createCompany: CreateCompany,
