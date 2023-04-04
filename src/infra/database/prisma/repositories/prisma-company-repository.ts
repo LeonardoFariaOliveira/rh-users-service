@@ -12,8 +12,7 @@ export class PrismaCompanyRepository implements CompanyRepository {
 
   //Create a company on database
   async create(company: CompanyProps): Promise<void> {
-    const enc = this.accessCryptography.encrypt(company.password);
-    const password = enc.encryptedData;
+    const password = this.accessCryptography.encrypt(company.password);
     await this.prismaService.company.create({
       data: {
         id: company.id,

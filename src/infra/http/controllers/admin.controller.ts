@@ -19,10 +19,8 @@ export class AdminController {
     const { name } = body;
 
     //Encrypt the name of admin to generate an access and then a password
-    const { encryptedData } = this.accessCryptography.encrypt(name);
-    const user = encryptedData.slice(0, 9);
-    const encrPass = this.accessCryptography.encrypt(user);
-    const password = encrPass.encryptedData.slice(0, 9);
+    const user = this.accessCryptography.encrypt(name).slice(0, 9);
+    const password = this.accessCryptography.encrypt(user).slice(0, 9);
     try {
       const { admin } = await this.createAdmin.execute({
         name,
@@ -46,10 +44,17 @@ export class AdminController {
   @Post('auth/login')
   async login(@Body() body: CreateAdminAuthBody) {
     const { user, password } = body;
-    const token = await this.adminLocalStrategy.validate(user, password);
-    return {
-      jwtToken: token,
-    };
+    try {
+      const token = await this.adminLocalStrategy.validate(user, password);
+      return {
+        jwtToken: token,
+      };
+    } catch (e) {
+      return {
+        status: e.status,
+        message: e,
+      };
+    }
   }
 
   //   @Get('/:id')

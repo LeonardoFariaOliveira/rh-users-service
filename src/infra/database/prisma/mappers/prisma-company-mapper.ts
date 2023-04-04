@@ -8,8 +8,7 @@ export class PrismaCompanyMapper {
 
   //Here we take data from domain layer ans mask to persistence layer
   static async toPrisma(company: CompanyProps) {
-    const enc = this.accessCryptography.encrypt(company.password);
-    const password = enc.encryptedData;
+    const password = this.accessCryptography.encrypt(company.password);
     return {
       id: company.id,
       email: company.email,

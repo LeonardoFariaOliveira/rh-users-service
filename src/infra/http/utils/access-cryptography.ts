@@ -8,13 +8,13 @@ export class AccessCryptography {
       process.env.key,
       process.env.iv,
     );
-    let encrypted = cipher.update(text);
-    encrypted = Buffer.concat([encrypted, cipher.final()]);
-    console.log('iv' + process.env.iv.toString());
-    return {
-      iv: process.env.toString(),
-      encryptedData: encrypted.toString('hex'),
-    };
+    const encrypted = cipher.update(text);
+    return Buffer.concat([encrypted, cipher.final()]).toString('base64');
+    // console.log('iv' + process.env.iv.toString());
+    // return {
+    //   iv: process.env.toString(),
+    //   encryptedData: encrypted.toString('base64', 0, 9),
+    // };
   }
 
   decrypt(text: string) {
@@ -23,7 +23,12 @@ export class AccessCryptography {
       process.env.key,
       process.env.iv,
     );
-    const decrypted = decipher.update(text, 'hex', 'utf8');
-    return decrypted + decipher.final('utf8');
+    // let decrypted = decipher.update(text, 'hex', 'utf8');
+    // console.log(decrypted.length);
+    // return (decrypted += decipher.final('utf8'));
+    return Buffer.concat([
+      decipher.update(text, 'base64'), // Expect `text` to be a base64 string
+      decipher.final(),
+    ]).toString();
   }
 }

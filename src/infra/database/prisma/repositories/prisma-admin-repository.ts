@@ -18,11 +18,12 @@ export class PrismaAdminRepository implements AdminRepository {
 
   //Gets an admin from database by user access
   async findAdminByUser(user: string): Promise<AdminProps> {
-    return await this.prismaService.admin.findUnique({
+    const admin = await this.prismaService.admin.findUnique({
       where: {
         user: user,
       },
     });
+    return PrismaAdminMapper.toDomainLogin(admin);
   }
 
   // async findById(userId: string): Promise<User> {

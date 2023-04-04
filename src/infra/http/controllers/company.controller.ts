@@ -74,10 +74,17 @@ export class CompanyController {
   @Post('auth/login')
   async login(@Body() body: CreateCompanyAuthBody) {
     const { email, password } = body;
-    const token = await this.companyLocalStrategy.validate(email, password);
-    return {
-      jwtToken: token,
-    };
+    try {
+      const token = await this.companyLocalStrategy.validate(email, password);
+      return {
+        jwtToken: token,
+      };
+    } catch (e) {
+      return {
+        status: e.status,
+        message: e,
+      };
+    }
   }
 
   //Path to get the companies

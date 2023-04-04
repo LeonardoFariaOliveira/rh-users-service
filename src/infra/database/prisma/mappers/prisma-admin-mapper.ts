@@ -7,13 +7,12 @@ export class PrismaAdminMapper {
 
   //Here we take data from domain layer ans mask to persistence layer
   static async toPrisma(admin: AdminProps) {
-    const enc = this.accessCryptography.encrypt(admin.password);
-    const password = enc.encryptedData.slice(0, 9);
+    const password = this.accessCryptography.encrypt(admin.password);
     return {
       id: admin.id,
       name: admin.name,
       user: admin.user,
-      password: admin.password,
+      password: password,
       active: admin.active,
     };
   }
@@ -25,6 +24,20 @@ export class PrismaAdminMapper {
         name: raw.name,
         user: raw.user,
         password: raw.password,
+        active: raw.active,
+      },
+      raw.id,
+    );
+  }
+
+  //Here we take data from persistence layer ans mask to domain layer
+  static toDomainLogin(raw: rawAdmin) {
+    const password = this.accessCryptography.decrypt(raw.password);
+    return new Admin(
+      {
+        name: raw.name,
+        user: raw.user,
+        password: password,
         active: raw.active,
       },
       raw.id,
