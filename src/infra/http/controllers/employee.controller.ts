@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { CreateEmployee } from '@app/use-cases/employee/create-employee';
@@ -14,6 +15,7 @@ import { DateMask } from '../utils/date-mask';
 import { FindEmployeeByCompanyId } from '@app/use-cases/employee/find-employee-by-company-id';
 import { EmployeesViewModule } from '../views/employees-view-module';
 import { AuthGuard } from '../utils/auth-guard';
+import { Response } from 'express';
 
 @Controller('v1/employees')
 export class EmployeeController {
@@ -26,7 +28,7 @@ export class EmployeeController {
   //Path to create an employee
   @UseGuards(AuthGuard)
   @Post('')
-  async create(@Body() body: CreateEmployeeBody) {
+  async create(@Body() body: CreateEmployeeBody, @Res() res: Response) {
     const {
       name,
       cpf,
@@ -67,18 +69,20 @@ export class EmployeeController {
         message: 'Ok',
       };
     } catch (e) {
-      return {
-        //Bad request, status 400
-        status: 400,
-        message: e,
-      };
+      return res.status(401).json({
+        statusCode: 401,
+        message: 'Houve um erro, tente novamente',
+      });
     }
   }
 
   //Path to get the companies
   @UseGuards(AuthGuard)
   @Get('/:companyId')
-  async getEmployeesByCompanyId(@Param('companyId') companyId: string) {
+  async getEmployeesByCompanyId(
+    @Param('companyId') companyId: string,
+    @Res() res: Response,
+  ) {
     try {
       const { employees } = await this.findEmployeeByCompanyId.execute(
         companyId,
@@ -93,10 +97,10 @@ export class EmployeeController {
         },
       };
     } catch (e) {
-      return {
-        status: 404,
-        message: e,
-      };
+      return res.status(404).json({
+        statusCode: 404,
+        message: 'Empresa não encontrada',
+      });
     }
   }
 

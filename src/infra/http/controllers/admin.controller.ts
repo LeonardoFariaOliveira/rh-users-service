@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Res } from '@nestjs/common';
 import { CreateAdmin } from '@app/use-cases/admin/create-admin';
 import { CreateAdminBody } from '../dtos/create-admin-body';
 import { AccessCryptography } from '../utils/access-cryptography';
 import { CreateAdminAuthBody } from '../dtos/create-admin-auth-body';
 import { AdminLocalStrategy } from '../utils/admin-local-auth';
+import { Response } from 'express';
 
 @Controller('v1')
 export class AdminController {
@@ -15,7 +16,7 @@ export class AdminController {
 
   //Path to create an admin
   @Post('03202327')
-  async create(@Body() body: CreateAdminBody) {
+  async create(@Body() body: CreateAdminBody, @Res() res: Response) {
     const { name } = body;
 
     //Encrypt the name of admin to generate an access and then a password
@@ -32,17 +33,16 @@ export class AdminController {
         admin: admin,
       };
     } catch (e) {
-      return {
-        //Bad request, status 400
-        status: 400,
-        message: e,
-      };
+      return res.status(401).json({
+        statusCode: 401,
+        message: 'Houve um erro, tente novamente',
+      });
     }
   }
 
   //Path to admin sign in
   @Post('auth/login')
-  async login(@Body() body: CreateAdminAuthBody) {
+  async login(@Body() body: CreateAdminAuthBody, @Res() res: Response) {
     const { user, password } = body;
     try {
       const token = await this.adminLocalStrategy.validate(user, password);
@@ -50,10 +50,10 @@ export class AdminController {
         jwtToken: token,
       };
     } catch (e) {
-      return {
-        status: e.status,
-        message: e,
-      };
+      return res.status(403).json({
+        statusCode: 403,
+        message: 'Acesso ou senha errados',
+      });
     }
   }
 

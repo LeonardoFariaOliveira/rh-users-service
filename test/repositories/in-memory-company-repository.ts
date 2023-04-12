@@ -2,6 +2,9 @@ import { CompanyProps } from '@app/entities/company';
 import { CompanyRepository } from '@app/repositories/companyRepository';
 
 export class InMemoryCompanyRepository implements CompanyRepository {
+  deadactivateCompany(id: string): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
   public companies: CompanyProps[] = [];
 
   async create(company: CompanyProps) {

@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { CreateCompany } from '@app/use-cases/company/create-company';
@@ -15,6 +16,7 @@ import { CompanyViewModule } from '../views/companies-view-module';
 import { AuthGuard } from '../utils/auth-guard';
 import { CompanyLocalStrategy } from '../utils/company-local-auth';
 import { CreateCompanyAuthBody } from '../dtos/create-company-auth-body';
+import { Response } from 'express';
 
 @Controller('v1/companies')
 export class CompanyController {
@@ -27,7 +29,7 @@ export class CompanyController {
   //Path to create a company
   @UseGuards(AuthGuard)
   @Post('')
-  async create(@Body() body: CreateCompanyBody) {
+  async create(@Body() body: CreateCompanyBody, @Res() res: Response) {
     const {
       email,
       password,
@@ -62,28 +64,30 @@ export class CompanyController {
         message: 'Ok',
       };
     } catch (e) {
-      return {
-        //Bad request, status 400
-        status: 404,
-        message: e,
-      };
+      return res.status(401).json({
+        statusCode: 401,
+        message: 'Houve um erro, tente novamente',
+      });
     }
   }
 
   //Path to a company sign in
   @Post('auth/login')
-  async login(@Body() body: CreateCompanyAuthBody) {
+  async login(@Body() body: CreateCompanyAuthBody, @Res() res: Response) {
     const { email, password } = body;
     try {
-      const token = await this.companyLocalStrategy.validate(email, password);
+      const { token, id, popularName } =
+        await this.companyLocalStrategy.validate(email, password);
       return {
-        jwtToken: token,
+        token: token,
+        id: id,
+        popularName: popularName,
       };
     } catch (e) {
-      return {
-        status: e.status,
-        message: e,
-      };
+      return res.status(403).json({
+        statusCode: 403,
+        message: 'Email ou senha errados',
+      });
     }
   }
 
