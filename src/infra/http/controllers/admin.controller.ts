@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { CreateAdmin } from '@app/use-cases/admin/create-admin';
 import { CreateAdminBody } from '../dtos/create-admin-body';
 import { AccessCryptography } from '../utils/access-cryptography';

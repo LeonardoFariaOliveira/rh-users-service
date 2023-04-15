@@ -19,6 +19,8 @@ import { CompanyLocalStrategy } from '../utils/company-local-auth';
 import { CreateCompanyAuthBody } from '../dtos/create-company-auth-body';
 import { Response } from 'express';
 import { DeadactivateCompany } from '@app/use-cases/company/deadactivate-company';
+import { UpdateCompany } from '@app/use-cases/company/update-company';
+import { UpdateCompanyBody } from '../dtos/update-company-body';
 
 @Controller('v1/companies')
 export class CompanyController {
@@ -27,6 +29,7 @@ export class CompanyController {
     private findCompanies: FindCompanies,
     private companyLocalStrategy: CompanyLocalStrategy,
     private deadactivateCompany: DeadactivateCompany,
+    private updateCompany: UpdateCompany,
   ) {}
 
   //Path to create a company
@@ -111,7 +114,7 @@ export class CompanyController {
 
   //Path to deadactivate a company
   @UseGuards(AuthGuard)
-  @Patch('/:id')
+  @Delete('/:id')
   async deadactivate(@Param('id') id: string, @Res() res: Response) {
     try {
       await this.deadactivateCompany.execute(id);
@@ -123,6 +126,51 @@ export class CompanyController {
         statusCode: 404,
         message:
           'Houve um erro, tente novamente. Possívelmente a empresa não foi encontrada',
+      });
+    }
+  }
+
+  //Path to update a company
+  @UseGuards(AuthGuard)
+  @Patch('/:id')
+  async update(
+    @Param('id') id: string,
+    @Res() res: Response,
+    @Body() body: UpdateCompanyBody,
+  ) {
+    try {
+      const {
+        popularName,
+        corporateName,
+        cnpj,
+        phoneNumber,
+        photoUrl,
+        address,
+      } = body;
+      const company = await this.updateCompany.execute({
+        id,
+        popularName,
+        corporateName,
+        cnpj,
+        phoneNumber,
+        photoUrl,
+        address: new Address(
+          address.country,
+          address.countryArea,
+          address.city,
+          address.neighboor,
+          address.street,
+          address.number,
+        ),
+      });
+
+      return res.status(200).json({
+        data: company.company,
+      });
+    } catch (e) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: 'Houve um erro, tente novamente',
       });
     }
   }

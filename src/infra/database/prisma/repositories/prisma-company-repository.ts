@@ -2,12 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { CompanyRepository } from '@app/repositories/companyRepository';
 import { PrismaService } from '../prisma.service';
 import { PrismaCompanyMapper } from '../mappers/prisma-company-mapper';
-import { Company, CompanyProps } from '@app/entities/company';
+import {
+  Company,
+  CompanyProps,
+  CompanyUpdateProps,
+} from '@app/entities/company';
 import { AccessCryptography } from '@infra/http/utils/access-cryptography';
 
 @Injectable()
 export class PrismaCompanyRepository implements CompanyRepository {
   constructor(private prismaService: PrismaService) {}
+
   private accessCryptography = new AccessCryptography();
 
   //Create a company on database
@@ -102,6 +107,49 @@ export class PrismaCompanyRepository implements CompanyRepository {
         active: false,
       },
     });
+  }
+
+  async updateCompany(company: CompanyUpdateProps): Promise<CompanyProps> {
+    const updatedCompany = await this.prismaService.company.update({
+      select: {
+        email: true,
+        popularName: true,
+        corporateName: true,
+        password: true,
+        CNPJ: true,
+        createdAt: true,
+        address: true,
+        id: true,
+        active: true,
+        phoneNumber: true,
+        photoUrl: true,
+        updatedAt: true,
+      },
+      where: {
+        id: company.id,
+      },
+      data: {
+        popularName: company.popularName,
+        corporateName: company.corporateName,
+        phoneNumber: company.phoneNumber,
+        CNPJ: company.cnpj,
+        address: {
+          update: {
+            country: company.address.countryValue,
+            countryArea: company.address.countryAreaValue,
+            city: company.address.cityValue,
+            neighboor: company.address.neighboorValue,
+            street: company.address.streetValue,
+            number: company.address.numberValue,
+          },
+        },
+      },
+    });
+
+    return PrismaCompanyMapper.toDomainLogin(
+      updatedCompany,
+      updatedCompany.address,
+    );
   }
 
   // async findById(userId: string): Promise<User> {
