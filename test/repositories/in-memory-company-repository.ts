@@ -1,10 +1,7 @@
-import { CompanyProps } from '@app/entities/company';
+import { CompanyProps, CompanyUpdateProps } from '@app/entities/company';
 import { CompanyRepository } from '@app/repositories/companyRepository';
 
 export class InMemoryCompanyRepository implements CompanyRepository {
-  deadactivateCompany(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
   public companies: CompanyProps[] = [];
 
   async create(company: CompanyProps) {
@@ -19,5 +16,25 @@ export class InMemoryCompanyRepository implements CompanyRepository {
     return this.companies.find((company) => {
       return company.email === email ? true : false;
     });
+  }
+
+  async deadactivateCompany(id: string): Promise<void> {
+    const company = this.companies.find((company) => {
+      return company.id === id ? true : false;
+    });
+    company.active = false;
+  }
+
+  async updateCompany(company: CompanyUpdateProps): Promise<CompanyProps> {
+    const updatedCompany = this.companies.find((company) => {
+      return company.id === company.id ? true : false;
+    });
+    updatedCompany.cnpj = company.cnpj;
+    updatedCompany.corporateName = company.corporateName;
+    updatedCompany.phoneNumber = company.phoneNumber;
+    updatedCompany.popularName = company.popularName;
+    updatedCompany.photoUrl = company.photoUrl;
+    updatedCompany.address = company.address;
+    return updatedCompany;
   }
 }

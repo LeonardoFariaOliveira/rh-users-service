@@ -19,6 +19,7 @@ import { CompanyAuthModule } from './company-auth.module';
 import { FindCompanyByEmail } from '@app/use-cases/company/find-company-by-email';
 import { CompanyLocalStrategy } from './utils/company-local-auth';
 import { EmailAuthProvider } from './utils/email-auth-provider';
+import { DeadactivateCompany } from '@app/use-cases/company/deadactivate-company';
 
 @Module({
   imports: [DatabaseModule, UserAccessAuthModule, CompanyAuthModule],
@@ -38,6 +39,7 @@ import { EmailAuthProvider } from './utils/email-auth-provider';
     CompanyLocalStrategy,
     EmailAuthProvider,
     FindCompanyByEmail,
+    DeadactivateCompany,
   ],
 })
 export class HTTPModule {}

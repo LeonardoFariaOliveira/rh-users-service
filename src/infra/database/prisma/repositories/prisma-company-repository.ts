@@ -58,6 +58,9 @@ export class PrismaCompanyRepository implements CompanyRepository {
       orderBy: {
         createdAt: 'desc',
       },
+      where: {
+        active: true,
+      },
     });
 
     return companies.map((company) => {
@@ -88,6 +91,17 @@ export class PrismaCompanyRepository implements CompanyRepository {
     });
 
     return PrismaCompanyMapper.toDomainLogin(company, company.address);
+  }
+
+  async deadactivateCompany(id: string): Promise<void> {
+    await this.prismaService.company.update({
+      where: {
+        id: id,
+      },
+      data: {
+        active: false,
+      },
+    });
   }
 
   // async findById(userId: string): Promise<User> {

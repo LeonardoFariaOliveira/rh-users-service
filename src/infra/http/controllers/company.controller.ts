@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -17,6 +18,7 @@ import { AuthGuard } from '../utils/auth-guard';
 import { CompanyLocalStrategy } from '../utils/company-local-auth';
 import { CreateCompanyAuthBody } from '../dtos/create-company-auth-body';
 import { Response } from 'express';
+import { DeadactivateCompany } from '@app/use-cases/company/deadactivate-company';
 
 @Controller('v1/companies')
 export class CompanyController {
@@ -24,6 +26,7 @@ export class CompanyController {
     private createCompany: CreateCompany,
     private findCompanies: FindCompanies,
     private companyLocalStrategy: CompanyLocalStrategy,
+    private deadactivateCompany: DeadactivateCompany,
   ) {}
 
   //Path to create a company
@@ -64,8 +67,8 @@ export class CompanyController {
         message: 'Ok',
       };
     } catch (e) {
-      return res.status(401).json({
-        statusCode: 401,
+      return res.status(400).json({
+        statusCode: 400,
         message: 'Houve um erro, tente novamente',
       });
     }
@@ -75,14 +78,16 @@ export class CompanyController {
   @Post('auth/login')
   async login(@Body() body: CreateCompanyAuthBody, @Res() res: Response) {
     const { email, password } = body;
+    console.log(email);
     try {
       const { token, id, popularName } =
         await this.companyLocalStrategy.validate(email, password);
-      return {
+      console.log(token, id, popularName);
+      return res.status(200).json({
         token: token,
         id: id,
         popularName: popularName,
-      };
+      });
     } catch (e) {
       return res.status(403).json({
         statusCode: 403,
@@ -102,6 +107,24 @@ export class CompanyController {
         CompanyViewModule.manyCompaniesToHTTP(company),
       ),
     };
+  }
+
+  //Path to deadactivate a company
+  @UseGuards(AuthGuard)
+  @Patch('/:id')
+  async deadactivate(@Param('id') id: string, @Res() res: Response) {
+    try {
+      await this.deadactivateCompany.execute(id);
+      return res.status(200).json({
+        message: 'Ok',
+      });
+    } catch (e) {
+      return res.status(404).json({
+        statusCode: 404,
+        message:
+          'Houve um erro, tente novamente. Possívelmente a empresa não foi encontrada',
+      });
+    }
   }
 
   //   @Patch('/:id/')
