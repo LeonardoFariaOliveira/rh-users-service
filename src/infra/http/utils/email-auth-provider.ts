@@ -15,7 +15,7 @@ export class EmailAuthProvider {
         },
         {
           secret: process.env.secret,
-          expiresIn: '28800s',
+          expiresIn: '7200s',
         },
       ),
     };

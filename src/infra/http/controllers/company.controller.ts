@@ -85,7 +85,7 @@ export class CompanyController {
     try {
       const { token, id, popularName } =
         await this.companyLocalStrategy.validate(email, password);
-      console.log(token, id, popularName);
+      // console.log(token, id, popularName);
       return res.status(200).json({
         token: token,
         id: id,

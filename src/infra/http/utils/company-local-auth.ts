@@ -29,6 +29,7 @@ export class CompanyLocalStrategy extends PassportStrategy(Strategy) {
       const token = await (
         await this.emailAuthProvider.generateToken(company)
       ).access_token;
+      // console.log(token);
       return {
         token: token,
         popularName: company.popularName,

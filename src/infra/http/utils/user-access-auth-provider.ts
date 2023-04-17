@@ -20,7 +20,7 @@ export class UserAccessAuthProvider {
         },
         {
           secret: process.env.secret,
-          expiresIn: '28800s',
+          expiresIn: '20s',
         },
       ),
     };

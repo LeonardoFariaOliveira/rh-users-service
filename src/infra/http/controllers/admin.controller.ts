@@ -46,9 +46,10 @@ export class AdminController {
     const { user, password } = body;
     try {
       const token = await this.adminLocalStrategy.validate(user, password);
-      return {
-        jwtToken: token,
-      };
+      console.log(token);
+      return res.status(200).json({
+        token: token,
+      });
     } catch (e) {
       return res.status(403).json({
         statusCode: 403,
