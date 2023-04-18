@@ -23,7 +23,7 @@ export class CreateCompanyBody {
   })
   popularName: string;
 
-  @Length(13, 13, {
+  @Length(13, 25, {
     message: 'CNPJ Inválido',
   })
   CNPJ: string;

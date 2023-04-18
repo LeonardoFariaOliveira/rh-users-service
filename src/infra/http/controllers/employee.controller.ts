@@ -86,7 +86,7 @@ export class EmployeeController {
       const { employees } = await this.findEmployeeByCompanyId.execute(
         companyId,
       );
-      return {
+      return res.status(200).json({
         data: {
           companyId: companyId,
           count: employees.length,
@@ -94,7 +94,7 @@ export class EmployeeController {
             EmployeesViewModule.manyEmployeesToHTTP(employee),
           ),
         },
-      };
+      });
     } catch (e) {
       return res.status(404).json({
         statusCode: 404,
