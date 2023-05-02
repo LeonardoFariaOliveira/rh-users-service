@@ -7,4 +7,5 @@ export abstract class CompanyRepository {
   abstract findCompanyByEmail(email: string): Promise<CompanyProps>;
   abstract deadactivateCompany(id: string): Promise<void>;
   abstract updateCompany(company: CompanyUpdateProps): Promise<CompanyProps>;
+  abstract isCompanyActive(email: string): Promise<boolean>;
 }

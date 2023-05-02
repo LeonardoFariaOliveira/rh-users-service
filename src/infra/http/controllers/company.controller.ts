@@ -81,7 +81,7 @@ export class CompanyController {
   @Post('auth/login')
   async login(@Body() body: CreateCompanyAuthBody, @Res() res: Response) {
     const { email, password } = body;
-    console.log(email);
+    // console.log(email);
     try {
       const { token, id, popularName } =
         await this.companyLocalStrategy.validate(email, password);

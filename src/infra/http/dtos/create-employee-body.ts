@@ -45,9 +45,14 @@ export class CreateEmployeeBody {
   @Length(4, 6, {
     message: 'Salário não deve possuir mais de 6 dígitos',
   })
-  @IsDecimal({
-    decimal_digits: '0,',
-  })
+  @IsDecimal(
+    {
+      decimal_digits: '0,',
+    },
+    {
+      message: 'Salario invalido',
+    },
+  )
   salary: number;
 
   address: {

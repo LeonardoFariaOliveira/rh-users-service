@@ -92,6 +92,7 @@ export class PrismaCompanyRepository implements CompanyRepository {
       },
       where: {
         email: email,
+        // active: true,
       },
     });
 
@@ -150,6 +151,19 @@ export class PrismaCompanyRepository implements CompanyRepository {
       updatedCompany,
       updatedCompany.address,
     );
+  }
+
+  async isCompanyActive(email: string): Promise<boolean> {
+    const company = await this.prismaService.company.findUnique({
+      select: {
+        active: true,
+      },
+      where: {
+        email: email,
+        // active: true,
+      },
+    });
+    return company.active;
   }
 
   // async findById(userId: string): Promise<User> {

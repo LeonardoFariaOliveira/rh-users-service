@@ -4,6 +4,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { EmailAuthProvider } from './email-auth-provider';
 import { FindCompanyByEmail } from '@app/use-cases/company/find-company-by-email';
+import { IsCompanyActive } from '@app/use-cases/company/is-company-active';
 
 interface CompanyAuthProps {
   token: string;
@@ -16,11 +17,16 @@ export class CompanyLocalStrategy extends PassportStrategy(Strategy) {
   constructor(
     private emailAuthProvider: EmailAuthProvider,
     private readonly findCompanyByEmail: FindCompanyByEmail,
+    private readonly isCompanyActive: IsCompanyActive,
   ) {
     super();
   }
 
   async validate(email: string, password: string): Promise<CompanyAuthProps> {
+    const { isCompanyActive } = await this.isCompanyActive.execute(email);
+    if (!isCompanyActive) {
+      throw new UnauthorizedException('Conta desativada');
+    }
     const { company } = await this.findCompanyByEmail.execute(email);
     if (!company) {
       throw new UnauthorizedException('Email ou Senha Inválidos');

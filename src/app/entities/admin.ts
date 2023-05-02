@@ -62,7 +62,7 @@ export class Admin {
   }
 
   public set createdAt(createdAt: Date) {
-    this.props.createdAt;
+    this.props.createdAt = createdAt;
   }
   public get createdAt(): Date {
     return this.props.createdAt;

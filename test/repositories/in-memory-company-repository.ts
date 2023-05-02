@@ -37,4 +37,11 @@ export class InMemoryCompanyRepository implements CompanyRepository {
     updatedCompany.address = company.address;
     return updatedCompany;
   }
+
+  async isCompanyActive(email: string): Promise<boolean> {
+    const company = this.companies.find((company) => {
+      return company.email === email ? true : false;
+    });
+    return company.active;
+  }
 }
