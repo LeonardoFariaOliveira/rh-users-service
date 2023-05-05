@@ -8,6 +8,7 @@ export class CompanyViewModule {
     return {
       id: company.id,
       email: company.email,
+      corporateName: company.corporateName,
       popularName: company.popularName,
       phoneNumber: company.phoneNumber,
       createdAt: company.createdAt,

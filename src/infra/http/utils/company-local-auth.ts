@@ -12,7 +12,6 @@ interface CompanyAuthProps {
   id: string;
 }
 
-@Injectable()
 export class CompanyLocalStrategy extends PassportStrategy(Strategy) {
   constructor(
     private emailAuthProvider: EmailAuthProvider,
