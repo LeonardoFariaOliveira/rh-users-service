@@ -82,21 +82,23 @@ export class CompanyController {
   async login(@Body() body: CreateCompanyAuthBody, @Res() res: Response) {
     const { email, password } = body;
     // console.log(email);
-    try {
-      const { token, id, popularName } =
-        await this.companyLocalStrategy.validate(email, password);
-      // console.log(token, id, popularName);
-      return res.status(200).json({
-        token: token,
-        id: id,
-        popularName: popularName,
-      });
-    } catch (e) {
-      return res.status(403).json({
-        statusCode: 403,
-        message: 'Email ou senha errados',
-      });
-    }
+    // try {
+    const { token, id, popularName } = await this.companyLocalStrategy.validate(
+      email,
+      password,
+    );
+    // console.log(token, id, popularName);
+    return res.status(200).json({
+      token: token,
+      id: id,
+      popularName: popularName,
+    });
+    // } catch (e) {
+    //   return res.status(403).json({
+    //     statusCode: 403,
+    //     message: 'Email ou senha errados',
+    //   });
+    // }
   }
 
   //Path to get the companies

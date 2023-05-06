@@ -12,6 +12,7 @@ interface CompanyAuthProps {
   id: string;
 }
 
+@Injectable()
 export class CompanyLocalStrategy extends PassportStrategy(Strategy) {
   constructor(
     private emailAuthProvider: EmailAuthProvider,
@@ -23,9 +24,11 @@ export class CompanyLocalStrategy extends PassportStrategy(Strategy) {
 
   async validate(email: string, password: string): Promise<CompanyAuthProps> {
     const { isCompanyActive } = await this.isCompanyActive.execute(email);
+    console.log(isCompanyActive);
     if (!isCompanyActive) {
       throw new UnauthorizedException('Conta desativada');
     }
+    console.log(email);
     const { company } = await this.findCompanyByEmail.execute(email);
     if (!company) {
       throw new UnauthorizedException('Email ou Senha Inválidos');

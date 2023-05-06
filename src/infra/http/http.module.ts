@@ -24,12 +24,7 @@ import { UpdateCompany } from '@app/use-cases/company/update-company';
 import { IsCompanyActive } from '@app/use-cases/company/is-company-active';
 
 @Module({
-  imports: [
-    DatabaseModule,
-    UserAccessAuthModule,
-    CompanyAuthModule,
-    CompanyLocalStrategy,
-  ],
+  imports: [DatabaseModule, UserAccessAuthModule, CompanyAuthModule],
   controllers: [AdminController, CompanyController, EmployeeController],
   providers: [
     CreateAdmin,
