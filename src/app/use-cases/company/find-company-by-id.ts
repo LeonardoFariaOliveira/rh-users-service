@@ -3,22 +3,25 @@ import { CompanyProps } from '../../entities/company';
 import { CompanyRepository } from '../../repositories/companyRepository';
 
 //Company's response interface, is that we can return to user when he gets log in or requets a specific company by email
-interface FindCompanyByEmailResponse {
+interface FindCompanyByIdResponse {
   company: CompanyProps;
 }
 
 @Injectable()
-export class FindCompanyByEmail {
+export class FindCompanyById {
   //Dependencies injection
   constructor(private companyRepository: CompanyRepository) {}
 
-  async execute(email: string): Promise<FindCompanyByEmailResponse> {
-    if (!email) {
-      throw new Error('We need an email to get a company access');
+  async execute(id: string): Promise<FindCompanyByIdResponse> {
+    if (!id) {
+      throw new Error('We need an id to get a company');
     }
 
-    //Get the company access
-    const company = await this.companyRepository.findCompanyByEmail(email);
+    //Get the company data
+    const company = await this.companyRepository.findCompanyById(id);
+    if (!company) {
+      throw new Error('Company not found');
+    }
     return {
       company,
     };

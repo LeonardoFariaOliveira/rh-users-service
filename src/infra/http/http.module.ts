@@ -22,6 +22,7 @@ import { EmailAuthProvider } from './utils/email-auth-provider';
 import { DeadactivateCompany } from '@app/use-cases/company/deadactivate-company';
 import { UpdateCompany } from '@app/use-cases/company/update-company';
 import { IsCompanyActive } from '@app/use-cases/company/is-company-active';
+import { FindCompanyById } from '@app/use-cases/company/find-company-by-id';
 
 @Module({
   imports: [DatabaseModule, UserAccessAuthModule, CompanyAuthModule],
@@ -44,6 +45,7 @@ import { IsCompanyActive } from '@app/use-cases/company/is-company-active';
     DeadactivateCompany,
     UpdateCompany,
     IsCompanyActive,
+    FindCompanyById,
   ],
 })
 export class HTTPModule {}

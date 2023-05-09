@@ -21,6 +21,7 @@ import { Response } from 'express';
 import { DeadactivateCompany } from '@app/use-cases/company/deadactivate-company';
 import { UpdateCompany } from '@app/use-cases/company/update-company';
 import { UpdateCompanyBody } from '../dtos/update-company-body';
+import { FindCompanyById } from '@app/use-cases/company/find-company-by-id';
 
 @Controller('v1/companies')
 export class CompanyController {
@@ -30,6 +31,7 @@ export class CompanyController {
     private companyLocalStrategy: CompanyLocalStrategy,
     private deadactivateCompany: DeadactivateCompany,
     private updateCompany: UpdateCompany,
+    private findCompanyById: FindCompanyById,
   ) {}
 
   //Path to create a company
@@ -173,6 +175,24 @@ export class CompanyController {
       return res.status(400).json({
         statusCode: 400,
         message: 'Houve um erro, tente novamente',
+      });
+    }
+  }
+
+  //Path to get a company by id
+  @UseGuards(AuthGuard)
+  @Get('/:id')
+  async findById(@Param('id') id: string, @Res() res: Response) {
+    try {
+      const { company } = await this.findCompanyById.execute(id);
+
+      return res.status(200).json({
+        data: company,
+      });
+    } catch (e) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: 'Empresa não encontrada',
       });
     }
   }

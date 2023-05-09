@@ -166,6 +166,30 @@ export class PrismaCompanyRepository implements CompanyRepository {
     return company.active;
   }
 
+  async findCompanyById(companyId: string): Promise<CompanyProps> {
+    const company = await this.prismaService.company.findUniqueOrThrow({
+      select: {
+        email: true,
+        popularName: true,
+        corporateName: true,
+        password: true,
+        CNPJ: true,
+        createdAt: true,
+        address: true,
+        id: true,
+        active: true,
+        phoneNumber: true,
+        photoUrl: true,
+        updatedAt: true,
+      },
+      where: {
+        id: companyId,
+      },
+    });
+
+    return PrismaCompanyMapper.toDomain(company, company.address);
+  }
+
   // async findById(userId: string): Promise<User> {
   //     const user = await this.prismaService.user.findUnique({
   //         where:{

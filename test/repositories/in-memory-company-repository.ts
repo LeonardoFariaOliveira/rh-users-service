@@ -44,4 +44,10 @@ export class InMemoryCompanyRepository implements CompanyRepository {
     });
     return company.active;
   }
+
+  async findCompanyById(companyId: string): Promise<CompanyProps> {
+    return this.companies.find((company) => {
+      return company.id === companyId ? true : false;
+    });
+  }
 }
