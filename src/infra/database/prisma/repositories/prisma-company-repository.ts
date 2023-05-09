@@ -111,6 +111,8 @@ export class PrismaCompanyRepository implements CompanyRepository {
   }
 
   async updateCompany(company: CompanyUpdateProps): Promise<CompanyProps> {
+    const password = this.accessCryptography.encrypt(company.password);
+    console.log("cnpj:"+company.cnpj)
     const updatedCompany = await this.prismaService.company.update({
       select: {
         email: true,
@@ -133,7 +135,10 @@ export class PrismaCompanyRepository implements CompanyRepository {
         popularName: company.popularName,
         corporateName: company.corporateName,
         phoneNumber: company.phoneNumber,
+        photoUrl: company.photoUrl,
         CNPJ: company.cnpj,
+        password: password,
+        email: company.email,
         address: {
           update: {
             country: company.address.countryValue,
@@ -184,9 +189,10 @@ export class PrismaCompanyRepository implements CompanyRepository {
       },
       where: {
         id: companyId,
+        // active:true,
       },
     });
-
+    // console.log(company.active);
     return PrismaCompanyMapper.toDomain(company, company.address);
   }
 

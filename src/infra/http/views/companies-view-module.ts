@@ -8,16 +8,18 @@ export class CompanyViewModule {
   static manyCompaniesToHTTP(company: CompanyProps) {
     const accessCryptography = new AccessCryptography();
     const password = accessCryptography.decrypt(company.password);
+    console.log(company.active);
     return {
       id: company.id,
       email: company.email,
       corporateName: company.corporateName,
-      cnpj: company.corporateName,
+      cnpj: company.cnpj,
       password: password,
       popularName: company.popularName,
       phoneNumber: company.phoneNumber,
       address: company.address,
       createdAt: company.createdAt,
+      active: company.active,
     };
   }
 }

@@ -7,7 +7,9 @@ interface UpdateCompanyRequest {
   id: string;
   corporateName?: string;
   popularName?: string;
+  password?: string
   cnpj?: string;
+  email?:string;
   phoneNumber?: string;
   photoUrl?: string;
   address?: Address;

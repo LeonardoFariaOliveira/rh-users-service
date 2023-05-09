@@ -42,6 +42,7 @@ export class PrismaCompanyMapper {
         cnpj: raw.CNPJ,
         phoneNumber: raw.phoneNumber,
         photoUrl: raw.photoUrl,
+        active: raw.active,
         address: new Address(
           rawAddress.country,
           rawAddress.countryArea,
@@ -53,6 +54,9 @@ export class PrismaCompanyMapper {
       },
       raw.id,
     );
+
+    // console.log(c);
+    // return c;
   }
 
   //Here we take data from persistence layer ans mask to domain layer, decrypting the password to the login

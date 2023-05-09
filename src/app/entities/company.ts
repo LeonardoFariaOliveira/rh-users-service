@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { User, UserProps } from './user';
+import { User, UserProps, UserUpdateProps } from './user';
 import { Address } from './address';
 
 //Company principal interface, we use to create and list.
@@ -14,7 +14,7 @@ export interface CompanyProps extends UserProps {
 }
 
 //Update company interface
-export interface CompanyUpdateProps {
+export interface CompanyUpdateProps extends UserUpdateProps {
   id: string;
   corporateName?: string;
   popularName?: string;
@@ -32,7 +32,7 @@ export class Company extends User {
   constructor(props: CompanyProps, id?: string) {
     //here I pass the email and password to user's class 'cause I think
     // is better that user takes the auth responsibility
-    super(props.email, props.password, id ?? randomUUID());
+    super(props.email, props.password, id ?? randomUUID(), null, props.active);
     this.companyProps = {
       ...props,
       createdAt: props.createdAt ?? new Date(),

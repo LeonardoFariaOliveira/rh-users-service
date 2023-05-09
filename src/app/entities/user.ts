@@ -13,6 +13,7 @@ export interface UserProps {
 //Update user interface
 export interface UserUpdateProps {
   id: string;
+  email?: string;
   password?: string | null;
   active?: boolean;
 }
@@ -21,7 +22,13 @@ export class User {
   private _id: string;
   private props: UserProps;
 
-  constructor(email: string, password: string, id?: string, createdAt?: Date) {
+  constructor(
+    email: string,
+    password: string,
+    id?: string,
+    createdAt?: Date,
+    active?: boolean,
+  ) {
     //Making this I give the option to pass an id to create a user
     this._id = id ?? randomUUID();
     this.props = {
@@ -29,7 +36,7 @@ export class User {
       password: password,
       createdAt: createdAt ?? new Date(),
       updatedAt: new Date(),
-      active: true,
+      active: active ?? true,
     };
   }
 

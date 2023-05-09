@@ -84,7 +84,7 @@ export class CompanyController {
   async login(@Body() body: CreateCompanyAuthBody, @Res() res: Response) {
     const { email, password } = body;
     // console.log(email);
-    // try {
+    try {
     const { token, id, popularName } = await this.companyLocalStrategy.validate(
       email,
       password,
@@ -95,12 +95,18 @@ export class CompanyController {
       id: id,
       popularName: popularName,
     });
-    // } catch (e) {
-    //   return res.status(403).json({
-    //     statusCode: 403,
-    //     message: 'Email ou senha errados',
-    //   });
-    // }
+    } catch (e) {
+      // console.log(e)
+      if(e.message === "Conta desativada")
+        return res.status(403).json({
+          statusCode: 403,
+          message: 'Conta desativada',
+        });
+      return res.status(403).json({
+        statusCode: 403,
+        message: 'Email ou senha errados',
+      });
+    }
   }
 
   //Path to get the companies
@@ -143,20 +149,17 @@ export class CompanyController {
     @Body() body: UpdateCompanyBody,
   ) {
     try {
-      const {
-        popularName,
-        corporateName,
-        cnpj,
-        phoneNumber,
-        photoUrl,
-        address,
-      } = body;
-      const company = await this.updateCompany.execute({
+      const { popularName, corporateName, cnpj, phoneNumber, photoUrl, address, password, email } =body;
+
+      console.log("cnpj:"+cnpj)
+      await this.updateCompany.execute({
         id,
         popularName,
         corporateName,
         cnpj,
+        email,
         phoneNumber,
+        password,
         photoUrl,
         address: new Address(
           address.country,
@@ -169,7 +172,7 @@ export class CompanyController {
       });
 
       return res.status(200).json({
-        data: company.company,
+        message: "Ok"
       });
     } catch (e) {
       return res.status(400).json({
@@ -185,9 +188,16 @@ export class CompanyController {
   async findById(@Param('id') id: string, @Res() res: Response) {
     try {
       const { company } = await this.findCompanyById.execute(id);
+      if (!company.active) {
+        console.log('desativada');
+        return res.status(401).json({
+          statusCode: 401,
+          message: 'Empresa desativada',
+        });
+      }
 
       return res.status(200).json({
-        data: company,
+        data: CompanyViewModule.manyCompaniesToHTTP(company),
       });
     } catch (e) {
       return res.status(404).json({
