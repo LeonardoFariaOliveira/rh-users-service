@@ -15,49 +15,50 @@ datasource db {
 model Admin{
   id String @id
   name String
-  user String
+  user String @unique
   password String
   active Boolean @default(true)
-  passwordResetRequestId PasswordResetRequest[]
+  passwordResetRequests PasswordResetRequest[]
 }
 
 
-model User{
+model Company{
   id String @id
-  email String
+  email String @unique
   password String
-  corporateName String
+  corporateName String @unique
   popularName String
-  CNPJ String
-  phoneNumber String
+  CNPJ String @unique
+  phoneNumber String @unique
   photoUrl String?
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now())
   active Boolean @default(true)
-  addressId Address?
-  passwordResetRequestId PasswordResetRequest[]
-  employeeId Employee[]
+  address Address?
+  passwordResetRequests PasswordResetRequest[]
+  employees Employee[]
 }
 
 model Address{
   id String @id
   country String
+  countryArea String
   city String
   neighboor String
   street String
   number String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String @unique
-  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  employeeId String @unique
+  company Company? @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  companyId String? @unique
+  employee Employee? @relation(fields: [employeeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  employeeId String? @unique
 }
 
 model PasswordResetRequest{
   id String @id
   createdAt DateTime? @default(now())
   status Int @default(1)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  companyId String
   admin Admin @relation(fields: [adminId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   adminId String
 }
@@ -65,17 +66,19 @@ model PasswordResetRequest{
 model Employee{
   id String @id
   name String
-  CPF String
+  CPF String @unique
   CTPS String
   job String
   sector String
-  salary Decimal
   photoUrl String?
+  salary Decimal
+  admissionDate DateTime
+  birthDate DateTime
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now())
   active Boolean @default(true)
-  addressId Address?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
+  address Address?
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  companyId String
 }
 

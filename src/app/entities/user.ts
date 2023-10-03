@@ -1,6 +1,8 @@
 import { randomUUID } from 'crypto';
 
+//User principal interface
 export interface UserProps {
+  id?: string;
   email: string;
   password: string;
   createdAt?: Date;
@@ -8,8 +10,10 @@ export interface UserProps {
   active?: boolean;
 }
 
+//Update user interface
 export interface UserUpdateProps {
   id: string;
+  email?: string;
   password?: string | null;
   active?: boolean;
 }
@@ -18,14 +22,21 @@ export class User {
   private _id: string;
   private props: UserProps;
 
-  constructor(email: string, password: string, id?: string) {
+  constructor(
+    email: string,
+    password: string,
+    id?: string,
+    createdAt?: Date,
+    active?: boolean,
+  ) {
+    //Making this I give the option to pass an id to create a user
     this._id = id ?? randomUUID();
     this.props = {
       email: email,
       password: password,
-      createdAt: new Date(),
+      createdAt: createdAt ?? new Date(),
       updatedAt: new Date(),
-      active: true,
+      active: active ?? true,
     };
   }
 
